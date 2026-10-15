@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eliminar conta e dados — CarHelp</title>
+  <meta name="description" content="Como eliminar a tua conta CarHelp e os respetivos dados.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div>
+      <a class="brand" href="index.html">CarHelp</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="eliminar-conta.html">Eliminar conta</a>
+    </div>
+  </header>
+  <main>
+    <h1>Eliminar a conta e os dados</h1>
+    <p class="muted">App CarHelp, de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+
+    <h2>Como eliminar a conta</h2>
+    <div class="card">
+      <p><strong>Opção 1 — Dentro da app (imediato)</strong></p>
+      <ol class="steps">
+        <li>Abre a app <strong>CarHelp</strong> e inicia sessão.</li>
+        <li>Vai ao separador <strong>Perfil</strong>.</li>
+        <li>Toca em <strong>Dados e conta</strong>.</li>
+        <li>Toca em <strong>Eliminar conta</strong> e confirma.</li>
+      </ol>
+      <p>A conta e os dados são eliminados de imediato e a sessão é terminada.</p>
+    </div>
+    <div class="card">
+      <p><strong>Opção 2 — Por e-mail (sem acesso à app)</strong></p>
+      <p>Envia um e-mail para <a href="mailto:support@carhelp.pt?subject=Eliminar%20conta%20CarHelp">support@carhelp.pt</a>,
+        <strong>a partir do endereço de e-mail da conta</strong>, com o assunto <em>"Eliminar conta CarHelp"</em>.
+        Eliminamos a conta e respondemos a confirmar, no prazo máximo de 30 dias.</p>
+    </div>
+
+    <h2>O que é eliminado</h2>
+    <ul>
+      <li>A tua <strong>conta</strong> (nome, e-mail, identificador e foto de perfil).</li>
+      <li>Os <strong>carros</strong> de que és o único proprietário, com o respetivo histórico de manutenção, faturas, lembretes e fotografias.</li>
+      <li>Todas as <strong>verificações</strong> (orçamentos, luzes do painel, sons, códigos OBD, sintomas) e as <strong>fotos e gravações</strong> associadas.</li>
+      <li>A <strong>conversa com o assistente</strong>, as notificações e os pedidos de partilha enviados e recebidos.</li>
+      <li>Os ficheiros guardados na tua pasta de armazenamento na nuvem.</li>
+    </ul>
+
+    <h2>O que é mantido, e durante quanto tempo</h2>
+    <ul>
+      <li><strong>Carros partilhados:</strong> se partilhaste um carro com outra conta, esse carro <em>não</em> é apagado; passa para o outro membro
+        e a tua conta é removida dele. Os dados desse carro continuam a ser do novo proprietário.</li>
+      <li><strong>Mensagens de suporte</strong> que nos enviaste: mantidas pelo tempo necessário para tratar o pedido e cumprir obrigações legais.</li>
+      <li><strong>Cópias técnicas e registos</strong> nos sistemas dos prestadores (por exemplo, registos de segurança): podem permanecer por um período limitado
+        até serem eliminados automaticamente.</li>
+      <li><strong>Compras:</strong> o registo da subscrição fica na tua conta Google Play, gerida pela Google, e não é afetado por esta eliminação.
+        Eliminar a conta CarHelp <strong>não cancela</strong> a subscrição: cancela-a em Play Store › Pagamentos e subscrições.</li>
+    </ul>
+
+    <h2>Antes de eliminar</h2>
+    <p>Se quiseres guardar uma cópia, exporta-a em <strong>Perfil › Dados e conta</strong> (cópia de segurança e relatório PDF).
+      A eliminação não pode ser desfeita.</p>
+
+    <footer>CarHelp · Nogueira Dev · <a href="mailto:support@carhelp.pt">support@carhelp.pt</a> ·
+      <a href="privacidade.html">Política de privacidade</a></footer>
+  </main>
+</body>
+</html>
