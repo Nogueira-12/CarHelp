@@ -173,31 +173,132 @@
     gsap.set('[data-hero-in]', { autoAlpha: 0, y: 30 });
   }
 
-  /* ── Telemóvel ── */
-  var phone = $('#phone'), float = $('#phoneFloat');
-  var screens = $$('[data-screen]');
-  function showScreen(i) { screens.forEach(function (s) { s.classList.toggle('on', +s.getAttribute('data-screen') === i); }); }
-  function vw(n) { return function () { return window.innerWidth * n / 100; }; }
-  function vh(n) { return function () { return window.innerHeight * n / 100; }; }
-  var S0 = { x: vw(10), y: vh(3), rotationY: -24, rotationX: 10, rotationZ: -7, scale: 0.92 };
+  /* ── Telemóvel 3D: percurso ligado ao scroll ──
+     Entre cada secção dá uma volta completa sobre si próprio; o ecrã troca
+     exatamente quando está de costas (rotação a passar pelos 180°), por isso
+     a mudança nunca se vê. Fica sempre na coluna da direita, longe do texto. */
+  var phoneEngine = (function () {
+    var rigEl = $('#rig'), phoneEl = $('#phone'), floatEl = $('#phoneFloat');
+    if (!rigEl || !phoneEl) return null;
+    var imgs = $$('[data-screen]', phoneEl);
+
+    // espessura: camadas empilhadas de 1 px (aguenta bem a vista de lado)
+    var layers = $('.p-layers', phoneEl);
+    if (layers && !layers.children.length) {
+      for (var z = -7; z <= 7; z++) {
+        var li = document.createElement('i');
+        li.style.transform = 'translateZ(' + z + 'px)';
+        layers.appendChild(li);
+      }
+    }
+
+    var secs = [$('.hero'), $('#orcamentos'), $('#garagem')];
+    // rotações contínuas em graus: -16 → 344 → 704 (uma volta inteira por secção)
+    var STATES = [
+      { dx: 0, dy: 0, rx: 6, ry: -16, rz: -3, s: 1, o: 1 },
+      { dx: -0.025, dy: 0, rx: 3, ry: 344, rz: 3, s: 1.02, o: 1 },
+      { dx: 0.012, dy: 0, rx: 7, ry: 704, rz: -3, s: 1, o: 1 },
+      { dx: 0, dy: -1.2, rx: 28, ry: 900, rz: 10, s: 0.82, o: 0 }
+    ];
+    var kf = [];
+
+    function measure() {
+      var vh = window.innerHeight, y = window.pageYOffset || 0;
+      if (!secs[1] || !secs[2]) return;
+      function top(el) { return el.getBoundingClientRect().top + y; }
+      var t1 = top(secs[1]), h1 = secs[1].offsetHeight, t2 = top(secs[2]), h2 = secs[2].offsetHeight;
+      var pts = [
+        [0, 0], [vh * 0.1, 0],                       // hero: parado
+        [t1 - vh * 0.06, 1], [t1 + h1 - vh * 0.92, 1], // volta 1 → orçamentos, e fica
+        [t2 - vh * 0.06, 2], [t2 + h2 - vh * 0.95, 2], // volta 2 → garagem, e fica
+        [t2 + h2 - vh * 0.1, 3]                        // sai por cima
+      ];
+      var last = -1;
+      kf = pts.map(function (p) { var pos = Math.max(p[0], last + 1); last = pos; return { pos: pos, st: p[1] }; });
+    }
+
+    function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function target(y) {
+      if (!kf.length) measure();
+      var i = 0;
+      while (i < kf.length - 2 && y >= kf[i + 1].pos) i++;
+      var a = kf[i], b = kf[i + 1] || a;
+      var t = b.pos > a.pos ? Math.max(0, Math.min(1, (y - a.pos) / (b.pos - a.pos))) : 1;
+      var e = easeInOut(t), A = STATES[a.st], B = STATES[b.st], out = {};
+      for (var k in A) out[k] = A[k] + (B[k] - A[k]) * e;
+      out.idx = a.st + (b.st - a.st) * t;
+      return out;
+    }
+
+    var cur = null, intro = { p: reduce ? 1 : 0 }, shown = -1, visible = null;
+    function setScreen(i) {
+      if (i === shown) return;
+      shown = i;
+      imgs.forEach(function (im) { im.classList.toggle('on', +im.getAttribute('data-screen') === i); });
+    }
+
+    function render(dt) {
+      if (!desktop.matches) { if (visible !== false) { visible = false; rigEl.style.visibility = 'hidden'; } return; }
+      var tg = target(window.pageYOffset || 0);
+      if (!cur || reduce) { cur = {}; for (var k0 in tg) cur[k0] = tg[k0]; }
+      else {
+        var k = 1 - Math.pow(1 - 0.11, Math.max(1, dt * 60));
+        for (var key in tg) cur[key] += (tg[key] - cur[key]) * k;
+      }
+      var e = intro.p, vh = window.innerHeight, vw = window.innerWidth;
+      // a meio de cada volta: cresce um pouco e inclina-se (dá peso ao movimento)
+      var frac = cur.idx - Math.floor(cur.idx), mid = reduce ? 0 : Math.sin(Math.PI * frac);
+      var ry = reduce ? -14 : cur.ry - (1 - e) * 380;
+      var rx = cur.rx - 9 * mid + (1 - e) * 35;
+      var dy = (cur.dy + (1 - e) * 0.55) * vh;
+      var dx = cur.dx * vw;
+      var s = cur.s * (1 + 0.07 * mid) * (0.78 + 0.22 * e);
+      var op = cur.o * Math.min(1, e * 2.5);
+      phoneEl.style.transform = 'translate(-50%, -50%) translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0) rotateX(' + rx.toFixed(2) +
+        'deg) rotateZ(' + cur.rz.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
+      rigEl.style.opacity = op.toFixed(3);
+      var vis = op > 0.01;
+      if (vis !== visible) { visible = vis; rigEl.style.visibility = vis ? 'visible' : 'hidden'; }
+      var idx = reduce ? Math.round(cur.idx) : Math.floor((ry + 180) / 360);
+      setScreen(Math.max(0, Math.min(imgs.length - 1, idx)));
+    }
+
+    measure();
+    on(window, 'resize', measure);
+    on(window, 'load', measure);
+    ST.addEventListener('refresh', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    gsap.ticker.add(function (time, deltaTime) { render((deltaTime || 16) / 1000); });
+
+    // flutua e inclina-se um pouco para o rato (camada interior, não interfere com o percurso)
+    if (!reduce && floatEl) {
+      gsap.to(floatEl, { y: -12, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      var qx = gsap.quickTo(floatEl, 'rotationX', { duration: 1.2, ease: 'power3.out' });
+      var qy = gsap.quickTo(floatEl, 'rotationY', { duration: 1.2, ease: 'power3.out' });
+      on(window, 'pointermove', function (ev) {
+        qx(-(ev.clientY / window.innerHeight - 0.5) * 8);
+        qy((ev.clientX / window.innerWidth - 0.5) * 12);
+      }, { passive: true });
+    }
+
+    return {
+      start: function () { if (!reduce) gsap.to(intro, { p: 1, duration: 2.4, ease: 'power2.inOut' }); },
+      measure: measure
+    };
+  })();
 
   /* ── Carregamento + entrada do hero ── */
   function intro() {
     var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
     tl.to(heroLines, { yPercent: 0, duration: 1.3, stagger: 0.09 }, 0)
       .to('[data-hero-in]', { autoAlpha: 1, y: 0, duration: 1.1, stagger: 0.07 }, 0.25);
-    if (desktop.matches && rig) {
-      gsap.set(rig, { visibility: 'visible' });
-      tl.fromTo(phone, { x: vw(10), y: vh(70), rotationX: 50, rotationY: -40, rotationZ: -20, scale: 0.7, autoAlpha: 0 },
-        { x: S0.x, y: S0.y, rotationY: S0.rotationY, rotationX: S0.rotationX, rotationZ: S0.rotationZ, scale: S0.scale, autoAlpha: 1, duration: 1.8, ease: 'expo.out', onComplete: setupPhone }, 0.1);
-    }
+    if (phoneEngine) tl.add(function () { phoneEngine.start(); }, 0.5);
     return tl;
   }
 
   if (reduce || !loader) {
     if (loader) loader.style.display = 'none';
-    if (reduce) { if (rig) gsap.set(rig, { visibility: 'visible' }); gsap.set(phone, S0); setupPhoneStatic(); }
-    else intro();
+    if (!reduce) intro();
   } else {
     if (lenis) lenis.stop();
     var num = $('#loaderNum'), bar = $('#loaderBar'), c = { v: 0 };
@@ -211,33 +312,12 @@
       .set(loader, { display: 'none' });
   }
 
-  function setupPhoneStatic() {
-    $$('[data-phone]').forEach(function (sec) {
-      var i = +sec.getAttribute('data-phone');
-      if (i < 0) return;
-      ST.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%', onToggle: function (s) { if (s.isActive) showScreen(i); } });
+  /* ── Telemóveis "no sítio" (tablet e telemóvel): rodam um pouco ao passar ── */
+  if (!reduce && !desktop.matches) {
+    $$('[data-mphone] .m-frame').forEach(function (f) {
+      gsap.fromTo(f, { rotationY: -24, rotationX: 10 }, { rotationY: 24, rotationX: -6, ease: 'none',
+        scrollTrigger: { trigger: f, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
-  }
-
-  function setupPhone() {
-    if (!desktop.matches) return;
-    // flutua suavemente e segue o rato
-    gsap.to(float, { y: -14, rotationZ: 1.2, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-    var rx = gsap.quickTo(float, 'rotationX', { duration: 1.2, ease: 'power3.out' });
-    var ry = gsap.quickTo(float, 'rotationY', { duration: 1.2, ease: 'power3.out' });
-    on(window, 'pointermove', function (e) {
-      rx(-(e.clientY / window.innerHeight - 0.5) * 10);
-      ry((e.clientX / window.innerWidth - 0.5) * 14);
-    }, { passive: true });
-
-    // percurso ao longo das três primeiras secções
-    var tl = gsap.timeline({
-      scrollTrigger: { trigger: '.hero', start: 'top top', endTrigger: '.media-sec', end: 'top 30%', scrub: 1.2, invalidateOnRefresh: true }
-    });
-    tl.to(phone, { x: vw(24), y: vh(2), rotationY: -12, rotationX: 4, rotationZ: 5, scale: 1.04, ease: 'power2.inOut', duration: 1 })
-      .to(phone, { x: vw(22), y: 0, rotationY: 20, rotationX: 6, rotationZ: -5, scale: 1, ease: 'power2.inOut', duration: 1 })
-      .to(phone, { y: vh(-115), rotationX: 35, rotationY: 30, scale: 0.8, ease: 'power2.in', duration: 1 });
-    setupPhoneStatic();
   }
 
   /* ── Títulos: linhas a subir ── */
@@ -276,6 +356,9 @@
     gsap.from('.who-card', { y: 120, autoAlpha: 0, rotation: 3, duration: 1.3, stagger: 0.08, ease: 'expo.out',
       scrollTrigger: { trigger: '.who-grid', start: 'top 82%', once: true } });
 
+    gsap.from('.tcard', { y: 100, autoAlpha: 0, duration: 1.2, stagger: 0.1, ease: 'expo.out',
+      scrollTrigger: { trigger: '.trio', start: 'top 82%', once: true } });
+
     // perguntas que entram de lado
     gsap.from('.q', { x: 80, autoAlpha: 0, duration: 1.1, stagger: 0.09, ease: 'expo.out', scrollTrigger: { trigger: '.qlist', start: 'top 78%', once: true } });
 
@@ -285,6 +368,10 @@
 
   /* ── Vídeo do cartão grande: só toca quando visível ── */
   $$('video[data-lazyplay]').forEach(function (v) {
+    // ecrãs verticais recebem o vídeo 9:16 (o 16:9 ficaria muito cortado)
+    if (window.matchMedia('(max-width: 760px), (orientation: portrait)').matches) {
+      v.src = 'media/carhelp-mobile.mp4'; v.poster = 'media/poster-mobile.jpg';
+    }
     ST.create({ trigger: v, start: 'top 90%', end: 'bottom 10%',
       onToggle: function (s) { if (s.isActive && !reduce) { v.preload = 'auto'; v.play().catch(function () {}); } else v.pause(); } });
   });
@@ -292,19 +379,27 @@
   /* ── Contador ("Em 60 s") ── */
   $$('[data-odo]').forEach(function (el) {
     var digits = String(el.getAttribute('data-odo')).split('');
+    el.setAttribute('aria-label', el.getAttribute('data-odo'));
     var cols = digits.map(function (d) {
       var col = document.createElement('span'); col.className = 'col';
       for (var k = 0; k < 20; k++) { var s = document.createElement('span'); s.textContent = k % 10; col.appendChild(s); }
       el.appendChild(col);
       return { col: col, target: 10 + (+d) };
     });
-    el.setAttribute('aria-label', el.getAttribute('data-odo'));
-    if (reduce) { cols.forEach(function (c) { gsap.set(c.col, { yPercent: -(c.target / 20) * 100 }); }); return; }
+    // a deslocação é medida em píxeis (altura real de cada dígito)
+    function stepH(c) { var f = c.col.firstChild; return f ? f.getBoundingClientRect().height : 0; }
+    function place(p) { cols.forEach(function (c) { gsap.set(c.col, { y: -c.target * stepH(c) * p }); }); }
+    if (reduce) { place(1); on(window, 'resize', function () { place(1); }); return; }
+    var done = false;
     ST.create({ trigger: el, start: 'top 85%', once: true, onEnter: function () {
       cols.forEach(function (c, i) {
-        gsap.fromTo(c.col, { yPercent: 0 }, { yPercent: -(c.target / 20) * 100, duration: 2.2 + i * 0.35, ease: 'expo.out' });
+        var o = { p: 0 };
+        gsap.to(o, { p: 1, duration: 2.2 + i * 0.35, ease: 'expo.out',
+          onUpdate: function () { gsap.set(c.col, { y: -c.target * stepH(c) * o.p }); },
+          onComplete: function () { done = true; } });
       });
     } });
+    on(window, 'resize', function () { if (done) place(1); });
   });
 
   /* ── Faixa "Perguntas?" ── */
