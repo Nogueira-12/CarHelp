@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página não encontrada — CarHelp</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0a0b">
+  <script>
+    // O GitHub Pages mostra esta página em qualquer endereço inexistente (até em sub-pastas);
+    // a base faz com que as imagens, estilos e ligações funcionem sempre.
+    (function () {
+      var seg = location.pathname.split('/').filter(Boolean);
+      var base = location.protocol === 'file:' ? './' : (/\.github\.io$/.test(location.hostname) && seg.length ? '/' + seg[0] + '/' : '/');
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="media/app-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <style>
+    html, body { height: 100%; }
+    body { overflow: hidden; }
+    .e404 { position: fixed; inset: 0; background: var(--black); }
+    #smoke { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .e404 .aurora { opacity: .35; }
+    .e-title { position: absolute; left: 36px; top: 30px; margin: 0; font-size: 3em; line-height: 1.04; font-weight: 400; letter-spacing: -.02em; color: var(--dim); z-index: 3; }
+    .e-brand { position: absolute; right: var(--pad); top: 36px; font-size: 1.25em; letter-spacing: -.02em; color: var(--dim); z-index: 3; }
+    .e-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; display: grid; place-items: center; }
+    .e-img { position: absolute; width: 7.6em; aspect-ratio: .462; border-radius: 1.1em; overflow: hidden; background: #07080a; padding: .22em;
+      box-shadow: 0 0 0 1px #3a3f4a inset, 0 30px 70px rgba(0, 0, 0, .6); transform: perspective(900px) rotateY(-22deg) rotateX(12deg) rotateZ(8deg); }
+    .e-img img { position: absolute; inset: .22em; width: calc(100% - .44em); height: calc(100% - .44em); object-fit: cover; border-radius: .9em; opacity: 0; }
+    .e-num { position: relative; display: flex; font-size: 10.5em; line-height: 1; height: 1em; overflow: hidden; letter-spacing: -.03em; color: #e4e4ee;
+      text-shadow: 0 0 40px rgba(170, 160, 255, .35); font-variant-numeric: tabular-nums; z-index: 2; mix-blend-mode: normal; }
+    .e-col { display: block; position: relative; width: .58em; height: 1em; overflow: hidden; }
+    .e-col .strip { position: absolute; left: 0; top: 0; display: block; will-change: transform; }
+    .e-col .strip span { display: block; height: 1em; line-height: 1; text-align: center; }
+    .e-bottom { position: absolute; left: 36px; bottom: 36px; z-index: 3; max-width: 22em; }
+    .e-bottom p { margin: 0 0 20px; color: var(--dim); }
+    .e-bottom .row { display: flex; gap: 8px; }
+    .e-mark { position: absolute; right: var(--pad); bottom: 36px; width: 1.6em; height: 1.6em; color: var(--grey); z-index: 3; }
+    .e-mark svg { width: 100%; height: 100%; }
+    @media (max-width: 680px) {
+      .e-title { left: 24px; font-size: 2.2em; }
+      .e-bottom { left: 24px; right: 24px; bottom: 28px; }
+      .e-num { font-size: 6.5em; }
+      .e-img { width: 5.6em; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l2.5-6 4 12 2.5-6H22"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    </defs>
+  </svg>
+
+  <main class="e404">
+    <div class="aurora a1"></div>
+    <canvas id="smoke" aria-hidden="true"></canvas>
+    <h1 class="e-title"><span class="line"><span>Algo correu</span></span><span class="line"><span>mal...</span></span></h1>
+    <a class="e-brand" href="index.html">CarHelp</a>
+    <div class="e-center" aria-label="Erro 404">
+      <div class="e-img" id="eImg" aria-hidden="true">
+        <img src="media/screen-inicio.jpg" alt="">
+        <img src="media/screen-analise.jpg" alt="">
+        <img src="media/screen-garagem.jpg" alt="">
+      </div>
+      <div class="e-num" id="eNum" aria-hidden="true"><span class="e-col"></span><span class="e-col"></span><span class="e-col"></span></div>
+    </div>
+    <div class="e-bottom">
+      <p class="p2">A página que procuras não existe ou foi removida. Experimenta voltar à página inicial.</p>
+      <div class="row">
+        <a class="btn" href="index.html"><span class="bg"></span>Ir para o início</a>
+        <a class="ibtn ink" href="javascript:history.back()" aria-label="Voltar atrás"><span class="fill"></span><svg><use href="#i-left"/></svg></a>
+      </div>
+    </div>
+    <span class="e-mark" aria-hidden="true"><svg><use href="#i-pulse"/></svg></span>
+  </main>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var gsap = window.gsap;
+
+    /* ── "404" com dígitos que rolam até ao lugar ── */
+    var cols = Array.prototype.slice.call(document.querySelectorAll('#eNum .e-col'));
+    var target = [4, 0, 4];
+    var strips = cols.map(function (col) {
+      var st = document.createElement('span'); st.className = 'strip';
+      for (var k = 0; k < 30; k++) { var s = document.createElement('span'); s.textContent = k % 10; st.appendChild(s); }
+      col.appendChild(st);
+      return st;
+    });
+    function h() { var f = strips[0].firstChild; return f ? f.getBoundingClientRect().height : 0; }
+    function place() { strips.forEach(function (st, i) { st.style.transform = 'translateY(' + (-(20 + target[i]) * h()) + 'px)'; }); }
+
+    /* ── ecrãs da app a alternar por trás do número ── */
+    var shots = Array.prototype.slice.call(document.querySelectorAll('#eImg img'));
+    var cur = -1;
+    function show(i) {
+      shots.forEach(function (im, k) {
+        if (!gsap) { im.style.opacity = k === i ? 1 : 0; return; }
+        if (k === i) gsap.fromTo(im, { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power3.out' });
+        else gsap.to(im, { autoAlpha: 0, duration: 0.5 });
+      });
+      cur = i;
+    }
+
+    if (gsap) {
+      var lines = document.querySelectorAll('.e-title .line > span');
+      gsap.set(lines, { yPercent: 115 });
+      gsap.set('.e-bottom, .e-brand, .e-mark', { autoAlpha: 0, y: 20 });
+      gsap.set('#eImg', { autoAlpha: 0, scale: 0.8 });
+      var tl = gsap.timeline({ delay: 0.15 });
+      tl.to(lines, { yPercent: 0, duration: 1.1, stagger: 0.08, ease: 'expo.out' }, 0)
+        .to('#eImg', { autoAlpha: 1, scale: 1, duration: 1, ease: 'expo.out' }, 0.15)
+        .add(function () { show(0); }, 0.15)
+        .add(function () {
+          strips.forEach(function (st, i) {
+            gsap.fromTo(st, { y: 0 }, { y: -(20 + target[i]) * h(), duration: 1.6 + i * 0.25, ease: 'expo.inOut' });
+          });
+        }, 0.2)
+        .to('.e-bottom, .e-brand, .e-mark', { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.08, ease: 'expo.out' }, 0.5);
+      gsap.delayedCall(3.2, function cycle() { show((cur + 1) % shots.length); gsap.delayedCall(2.6, cycle); });
+    } else {
+      place(); show(0);
+    }
+    window.addEventListener('resize', function () { strips.forEach(function (st, i) { st.style.transform = ''; if (gsap) gsap.set(st, { y: -(20 + target[i]) * h() }); }); if (!gsap) place(); });
+
+    /* ── fumo luminoso que flui à volta do número ── */
+    var cvs = document.getElementById('smoke'), ctx = cvs.getContext('2d');
+    var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    function resize() { W = window.innerWidth; H = window.innerHeight; cvs.width = W * DPR; cvs.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
+    resize(); window.addEventListener('resize', resize);
+
+    // "pincel" macio pré-desenhado
+    var sprite = document.createElement('canvas'); sprite.width = sprite.height = 128;
+    var sc = sprite.getContext('2d'), g = sc.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, 'rgba(236,232,255,0.9)');
+    g.addColorStop(0.22, 'rgba(190,176,255,0.42)');
+    g.addColorStop(0.55, 'rgba(128,106,255,0.12)');
+    g.addColorStop(1, 'rgba(100,80,255,0)');
+    sc.fillStyle = g; sc.fillRect(0, 0, 128, 128);
+
+    var P = [], MAX = 760, t0 = performance.now(), last = t0;
+    function emitter(t) {
+      var R = Math.min(W, H) * 0.3;
+      // percurso em "8" deformado à volta do centro
+      return {
+        x: W / 2 + Math.cos(t * 0.45) * R * 1.25 + Math.sin(t * 0.9) * R * 0.18,
+        y: H / 2 + Math.sin(t * 0.7) * R * 0.75 + Math.cos(t * 0.35) * R * 0.15
+      };
+    }
+    function frame(now) {
+      requestAnimationFrame(frame);
+      var dt = Math.min(0.05, (now - last) / 1000); last = now;
+      var t = (now - t0) / 1000;
+      // apaga devagar: deixa um rasto de fumo
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(10,10,11,0.18)';
+      ctx.fillRect(0, 0, W, H);
+      // novas partículas
+      var e = emitter(t), e2 = emitter(t - 0.06), vx = (e.x - e2.x) / 0.06, vy = (e.y - e2.y) / 0.06;
+      for (var n = 0; n < 5 && P.length < MAX; n++) {
+        var a = Math.random() * Math.PI * 2, sp = 20 + Math.random() * 60;
+        P.push({ x: e.x + (Math.random() - 0.5) * 14, y: e.y + (Math.random() - 0.5) * 14,
+          vx: vx * 0.18 + Math.cos(a) * sp, vy: vy * 0.18 + Math.sin(a) * sp,
+          life: 0, max: 1.8 + Math.random() * 2.2, size: 16 + Math.random() * 30 });
+      }
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = P.length - 1; i >= 0; i--) {
+        var p = P[i];
+        p.life += dt;
+        if (p.life > p.max) { P.splice(i, 1); continue; }
+        // campo de fluxo suave (dá o aspeto de fluido)
+        var fx = Math.sin(p.y * 0.006 + t * 0.8) + Math.cos(p.x * 0.004 - t * 0.5);
+        var fy = Math.cos(p.x * 0.006 - t * 0.7) - Math.sin(p.y * 0.004 + t * 0.4);
+        p.vx += fx * 46 * dt; p.vy += fy * 46 * dt - 8 * dt;
+        p.vx *= 0.985; p.vy *= 0.985;
+        p.x += p.vx * dt; p.y += p.vy * dt;
+        var k = p.life / p.max, alpha = Math.min(1, p.life * 2.5) * (1 - k) * (1 - k) * 0.105;
+        var s = p.size * (1 + k * 3.4);
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(sprite, p.x - s / 2, p.y - s / 2, s, s);
+      }
+      // núcleo brilhante do emissor
+      ctx.globalAlpha = 0.22;
+      ctx.drawImage(sprite, e.x - 60, e.y - 60, 120, 120);
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(frame);
+  })();
+  </script>
+</body>
+</html>

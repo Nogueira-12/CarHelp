@@ -57,40 +57,46 @@
 
   <!-- Carregamento -->
   <div class="loader" id="loader" aria-hidden="true">
-    <div class="top"><span class="mark"><img src="media/app-icon.png" alt="">CarHelp</span><span class="p3 grey">A preparar o teu copiloto</span></div>
-    <div>
-      <div class="bar"><i id="loaderBar"></i></div>
-      <div class="count"><span id="loaderNum">0</span></div>
+    <div class="ld-count" id="ldCount"><span class="ld-col"></span><span class="ld-col"></span></div>
+    <span class="ld-brand">CarHelp</span>
+    <div class="ld-img" id="ldImg">
+      <img src="media/screen-inicio.jpg" alt="">
+      <img src="media/screen-analise.jpg" alt="">
+      <img src="media/screen-garagem.jpg" alt="">
     </div>
+    <p class="ld-text"><span class="line"><span>O teu carro</span></span><span class="line"><span>sob controlo</span></span></p>
+    <span class="ld-mark"><svg><use href="#i-pulse"/></svg></span>
   </div>
   <div class="curtain" id="curtain" aria-hidden="true"></div>
 
-  <!-- Barra flutuante -->
-  <div class="topbar glass" id="topbar">
-    <a class="brand" href="#topo" data-scroll><img src="media/app-icon.png" alt="">CarHelp</a>
-    <a class="btn" href="#download" data-scroll><span class="bg"></span>Experimentar grátis</a>
-    <button class="ibtn ink" type="button" id="menuOpen" aria-label="Abrir menu"><span class="fill"></span><svg><use href="#i-menu"/></svg></button>
-  </div>
-
-  <!-- Menu -->
-  <div class="menu" id="menu" aria-hidden="true">
-    <div class="head">
-      <span class="h5">CarHelp</span>
-      <button class="ibtn ink" type="button" id="menuClose" aria-label="Fechar menu"><span class="fill"></span><svg><use href="#i-close"/></svg></button>
+  <!-- Barra de navegação: cápsula em baixo ao centro que encolhe ao descer e se transforma no menu -->
+  <div class="nav-dim" id="navDim" aria-hidden="true"></div>
+  <nav class="navbar" id="navbar" aria-label="Navegação">
+    <button class="nb-menu" id="nbMenu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navCard"><i></i><i></i></button>
+    <a class="nb-logo" href="#topo" data-scroll aria-label="CarHelp, voltar ao início"><img src="media/app-icon.png" alt=""></a>
+    <a class="nb-cta" href="#download" data-scroll><span class="l">Experimentar grátis</span><span class="s">Experimentar</span></a>
+  </nav>
+  <div class="nav-card" id="navCard" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
+    <div class="nc-inner">
+      <div class="nc-top">
+        <div class="nc-links">
+          <a href="#topo" data-scroll data-nav="hero">Início</a>
+          <a href="#orcamentos" data-scroll data-nav="orcamentos">Orçamentos</a>
+          <a href="#garagem" data-scroll data-nav="garagem">Garagem</a>
+          <a href="#planos" data-scroll data-nav="planos">Planos</a>
+          <a href="#perguntas" data-scroll data-nav="perguntas">Perguntas</a>
+        </div>
+        <img class="nc-mark" src="media/app-icon.png" alt="">
+      </div>
+      <hr>
+      <div class="nc-small">
+        <div><a href="mailto:support@carhelp.pt">Suporte</a><a href="termos.html" data-page>Termos de utilização</a><a href="privacidade.html" data-page>Privacidade</a></div>
+        <div><a href="eliminar-conta.html" data-page>Eliminar conta</a><a href="#ajuda" data-scroll>Funcionalidades</a></div>
+      </div>
+      <a class="nc-cta" href="#download" data-scroll>Experimentar grátis</a>
     </div>
-    <nav>
-      <a href="#topo" data-scroll><small>01</small><span class="line"><span class="h2">Início</span></span></a>
-      <a href="#orcamentos" data-scroll><small>02</small><span class="line"><span class="h2">Orçamentos</span></span></a>
-      <a href="#garagem" data-scroll><small>03</small><span class="line"><span class="h2">Garagem</span></span></a>
-      <a href="#ajuda" data-scroll><small>04</small><span class="line"><span class="h2">Funcionalidades</span></span></a>
-      <a href="#planos" data-scroll><small>05</small><span class="line"><span class="h2">Planos</span></span></a>
-      <a href="#perguntas" data-scroll><small>06</small><span class="line"><span class="h2">Perguntas</span></span></a>
-    </nav>
-    <div class="foot p3">
-      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>
-      <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a></span>
-    </div>
   </div>
+  <button class="nc-close" id="ncClose" type="button" aria-label="Fechar menu"><svg><use href="#i-close"/></svg></button>
 
   <!-- Telemóvel 3D que acompanha o scroll (ecrãs reais da app) -->
   <div class="rig" id="rig" aria-hidden="true">
@@ -249,12 +255,10 @@
 
     <!-- ═══ Ainda mais ═══ -->
     <section class="more" data-phone="-1">
+     <div class="pinbox">
       <div class="head">
         <h2 class="h2" data-split><span class="line"><span>Ainda mais</span></span><span class="line"><span>com a CarHelp</span></span></h2>
-        <div style="display:flex;gap:8px">
-          <button class="ibtn ink" type="button" id="morePrev" aria-label="Anterior"><span class="fill"></span><svg><use href="#i-left"/></svg></button>
-          <button class="ibtn ink" type="button" id="moreNext" aria-label="Seguinte"><span class="fill"></span><svg><use href="#i-right"/></svg></button>
-        </div>
+        <p class="p1 grey more-hint"><span class="hint-d">Continua a descer: os cartões andam para o lado.</span><span class="hint-m">Desliza para o lado para ver mais.</span></p>
       </div>
       <div class="track" id="track">
         <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-doc"/></svg></div><div><div class="big">PDF</div><p class="p1 grey" style="margin-top:12px">Relatório do histórico que valoriza o carro na revenda.</p></div></div>
@@ -264,6 +268,7 @@
         <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-search"/></svg></div><div><div class="big">Comparar</div><p class="p1 grey" style="margin-top:12px">Dois orçamentos lado a lado, para escolheres melhor.</p></div></div>
         <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-cloud"/></svg></div><div><div class="big">Cópia</div><p class="p1 grey" style="margin-top:12px">Exporta ou elimina os teus dados quando quiseres.</p></div></div>
       </div>
+     </div>
     </section>
 
     <!-- ═══ Pergunta o que quiseres ═══ -->
