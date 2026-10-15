@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Termos de utilização e subscrição — CarHelp</title>
+  <meta name="description" content="Termos de utilização e condições da subscrição da app CarHelp.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div>
+      <a class="brand" href="index.html">CarHelp</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="eliminar-conta.html">Eliminar conta</a>
+    </div>
+  </header>
+  <main>
+    <h1>Termos de utilização e subscrição</h1>
+    <p class="muted">App CarHelp (Android), de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+
+    <h2>1. O serviço</h2>
+    <p>A CarHelp ajuda condutores a perceber orçamentos de oficina, luzes do painel, ruídos e códigos de erro, e a gerir a manutenção
+      do carro. Usando a app, aceitas estes termos.</p>
+
+    <h2>2. A informação é orientativa</h2>
+    <p>As respostas e estimativas, incluindo as geradas por inteligência artificial, são <strong>informação geral e orientativa</strong>.
+      Podem conter erros e não substituem a avaliação de um mecânico qualificado nem aconselhamento técnico, jurídico ou de segurança.
+      Se uma luz vermelha acender, ou notares cheiro a queimado, fumo ou travões/direção anómalos, pára em segurança e pede assistência.
+      Nunca uses o telemóvel enquanto conduzes.</p>
+
+    <h2>3. Conta</h2>
+    <p>És responsável pela confidencialidade das tuas credenciais e pela atividade da tua conta. A app destina-se a maiores de 18 anos.
+      Podes eliminar a conta quando quiseres (ver <a href="eliminar-conta.html">Eliminar conta</a>).</p>
+
+    <h2>4. Subscrição CarHelp Completo</h2>
+    <div class="card">
+      <ul>
+        <li><strong>Preços:</strong> 2,99 € por mês ou 19,99 € por ano (IVA incluído; pode variar consoante o país).</li>
+        <li><strong>Período gratuito:</strong> 10 dias para novos subscritores. Se não cancelares antes do fim, a subscrição inicia
+          e é cobrada ao preço do plano escolhido.</li>
+        <li><strong>Renovação:</strong> automática, ao fim de cada mês ou ano, até cancelares.</li>
+        <li><strong>Cancelamento:</strong> a qualquer momento em Play Store › Pagamentos e subscrições › Subscrições › CarHelp.
+          Manténs o acesso até ao fim do período já pago.</li>
+        <li><strong>Pagamento e reembolsos:</strong> são geridos pela Google Play, de acordo com as políticas de reembolso da Google.</li>
+      </ul>
+    </div>
+    <p>Sem subscrição, a app mantém funcionalidades gratuitas (por exemplo, um carro, guias práticos e as listas de luzes e de códigos)
+      e mostra publicidade. Podemos alterar preços e funcionalidades; as alterações de preço são comunicadas antes de se aplicarem à tua renovação.</p>
+
+    <h2>5. Uso aceitável</h2>
+    <p>Não uses a app para fins ilícitos, para tentar aceder a contas ou dados de terceiros, nem para sobrecarregar ou comprometer o serviço.</p>
+
+    <h2>6. Responsabilidade</h2>
+    <p>O serviço é prestado "como está". Na medida permitida por lei, não nos responsabilizamos por decisões tomadas com base
+      na informação da app nem por danos indiretos. Nada nestes termos limita direitos que a lei te reconheça como consumidor.</p>
+
+    <h2>7. Propriedade intelectual</h2>
+    <p>A app, a sua marca e conteúdos pertencem à Nogueira Dev. Os dados que introduzes continuam a ser teus.</p>
+
+    <h2>8. Lei aplicável e contacto</h2>
+    <p>Estes termos regem-se pela lei portuguesa. Para questões ou reclamações:
+      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>. Como consumidor, podes também recorrer a uma entidade de
+      resolução alternativa de litígios de consumo.</p>
+
+    <footer>CarHelp · Nogueira Dev · <a href="privacidade.html">Política de privacidade</a></footer>
+  </main>
+</body>
+</html>
