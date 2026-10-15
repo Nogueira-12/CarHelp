@@ -112,7 +112,9 @@
     lenis = new window.Lenis({ lerp: 0.085, smoothWheel: true });
     lenis.on('scroll', ST.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-    gsap.ticker.lagSmoothing(0);
+    // até o carregamento acabar, um solavanco (ex.: preparar o 3D) não faz a animação saltar;
+    // depois fica sincronizado com o scroll suave (lagSmoothing 0)
+    gsap.ticker.lagSmoothing(100, 16);
   }
   function scrollToEl(el) {
     if (el === 0) { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
@@ -230,23 +232,42 @@
     if (navbar) navbar.classList.add('hide');
   }
 
-  /* ── Telemóvel 3D: percurso ligado ao scroll ──
+  /* ── Telemóvel 3D (WebGL): percurso ligado ao scroll ──
      Entre secções vem para o centro, cresce e dá uma cambalhota (mostra as costas);
      o ecrã troca exatamente quando está de costas (rotação nos 180°), por isso a
      mudança nunca se vê; pousa de frente na coluna da direita, longe do texto. */
   var phoneEngine = (function () {
-    var rigEl = rig, phoneEl = $('#phone'), floatEl = $('#phoneFloat');
-    if (!rigEl || !phoneEl) return null;
-    var imgs = $$('[data-screen]', phoneEl);
+    var rigEl = rig, canvas = $('#phoneCanvas');
+    if (!rigEl || !canvas) return null;
+    var p3 = null;
 
-    // espessura: camadas empilhadas de 1 px (aguenta bem a vista de lado)
-    var layers = $('.p-layers', phoneEl);
-    if (layers && !layers.children.length) {
-      for (var z = -7; z <= 7; z++) {
-        var li = document.createElement('i');
-        li.style.transform = 'translateZ(' + z + 'px)';
-        layers.appendChild(li);
-      }
+    var SCREENS = ['media/screen-inicio.jpg', 'media/screen-analise.jpg', 'media/screen-garagem.jpg'];
+    function withScreens(cb) {
+      // aberto com duplo clique (file://), o WebGL recusa imagens locais: usa as mesmas imagens embutidas
+      if (location.protocol !== 'file:') { cb(SCREENS); return; }
+      if (window.CARHELP_SCREENS) { cb(window.CARHELP_SCREENS); return; }
+      var sc = document.createElement('script');
+      sc.src = 'media/screens-data.js';
+      sc.onload = function () { cb(window.CARHELP_SCREENS || SCREENS); };
+      sc.onerror = function () { cb(SCREENS); };
+      document.head.appendChild(sc);
+    }
+
+    var phonePx = 600;
+    function sizePhone() {
+      var fs = parseFloat(window.getComputedStyle(document.body).fontSize) || 16;
+      phonePx = Math.min(window.innerHeight * 0.76, fs * 46);
+      if (p3) p3.resize();
+    }
+
+    function init() {
+      if (p3 || !desktop.matches) return;
+      p3 = window.CarHelpPhone3D ? window.CarHelpPhone3D.create(canvas) : null;
+      if (!p3) { document.documentElement.classList.add('no-webgl'); rigEl.style.display = 'none'; return; }
+      withScreens(function (list) { p3.loadScreens(list); });
+      sizePhone();
+      // compila os shaders enquanto o carregamento ainda está no ecrã
+      p3.warmup();
     }
 
     var secs = [$('.hero'), $('#orcamentos'), $('#garagem')];
@@ -292,55 +313,52 @@
       var t = b.pos > a.pos ? Math.max(0, Math.min(1, (y - a.pos) / (b.pos - a.pos))) : 1;
       var e = (EASE[a.ease] || EASE.inout)(t), A = S[a.st], B = S[b.st], out = {};
       for (var k in A) out[k] = A[k] + (B[k] - A[k]) * e;
-      out.idx = ORDER.indexOf(a.st) + (ORDER.indexOf(b.st) - ORDER.indexOf(a.st)) * t;
       return out;
     }
 
-    var cur = null, intro = { p: reduce ? 1 : 0 }, shown = -1, visible = null;
-    function setScreen(i) {
-      if (i === shown) return;
-      shown = i;
-      imgs.forEach(function (im) { im.classList.toggle('on', +im.getAttribute('data-screen') === i); });
-    }
+    var cur = null, intro = { p: reduce ? 1 : 0 }, visible = null;
+    var fl = { rx: 0, ry: 0, y: 0 };
 
     function render(dt) {
-      if (!desktop.matches) { if (visible !== false) { visible = false; rigEl.style.visibility = 'hidden'; } return; }
+      if (!desktop.matches || !p3) { if (visible !== false) { visible = false; rigEl.style.visibility = 'hidden'; } return; }
       var tg = target(window.pageYOffset || 0);
       if (!cur || reduce) { cur = {}; for (var k0 in tg) cur[k0] = tg[k0]; }
       else {
         var k = 1 - Math.pow(1 - 0.1, Math.max(1, dt * 60));
         for (var key in tg) cur[key] += (tg[key] - cur[key]) * k;
       }
-      var e = intro.p, vh = window.innerHeight, vw = window.innerWidth;
+      var e = intro.p;
       var ry = reduce ? -14 : cur.ry - (1 - e) * 380;
       var rx = cur.rx + (1 - e) * 35;
-      var dy = (cur.dy + (1 - e) * 0.6) * vh;
-      var dx = cur.dx * vw;
+      var dy = cur.dy + (1 - e) * 0.6;
       var s = cur.s * (0.78 + 0.22 * e);
       var op = cur.o * Math.min(1, e * 2.5);
-      phoneEl.style.transform = 'translate(-50%, -50%) translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0) rotateX(' + rx.toFixed(2) +
-        'deg) rotateZ(' + cur.rz.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
       rigEl.style.opacity = op.toFixed(3);
       var vis = op > 0.01;
       if (vis !== visible) { visible = vis; rigEl.style.visibility = vis ? 'visible' : 'hidden'; }
-      var idx = reduce ? Math.round(cur.idx / 2) : Math.floor((ry + 180) / 360);
-      setScreen(Math.max(0, Math.min(imgs.length - 1, idx)));
+      if (!vis) return;
+      // os ângulos acima usam a convenção do CSS (eixo Y para baixo): no 3D, X e Z trocam de sinal
+      p3.setPose({ x: 0.75 + cur.dx, y: 0.5 + dy, rx: -rx, ry: ry, rz: -cur.rz, s: s, px: phonePx });
+      p3.setFloat(fl);
+      p3.setScreen(Math.max(0, Math.min(2, Math.floor((ry + 180) / 360))));
+      p3.render();
     }
 
+    init();
     measure();
-    on(window, 'resize', measure);
+    on(window, 'resize', function () { init(); measure(); sizePhone(); });
     on(window, 'load', measure);
     ST.addEventListener('refresh', measure);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); sizePhone(); });
     gsap.ticker.add(function (time, deltaTime) { render((deltaTime || 16) / 1000); });
 
-    // flutua e inclina-se para o rato (camada interior, não interfere com o percurso)
-    if (!reduce && floatEl) {
-      gsap.to(floatEl, { y: -12, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-      var qx = gsap.quickTo(floatEl, 'rotationX', { duration: 1.2, ease: 'power3.out' });
-      var qy = gsap.quickTo(floatEl, 'rotationY', { duration: 1.2, ease: 'power3.out' });
+    // flutua devagar e inclina-se um pouco para o lado do rato
+    if (!reduce) {
+      gsap.to(fl, { y: 3, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      var qx = gsap.quickTo(fl, 'rx', { duration: 1.2, ease: 'power3.out' });
+      var qy = gsap.quickTo(fl, 'ry', { duration: 1.2, ease: 'power3.out' });
       on(window, 'pointermove', function (ev) {
-        qx(-(ev.clientY / window.innerHeight - 0.5) * 8);
+        qx((ev.clientY / window.innerHeight - 0.5) * 8);
         qy((ev.clientX / window.innerWidth - 0.5) * 12);
       }, { passive: true });
     }
@@ -414,10 +432,11 @@
       .to('.ld-count', { yPercent: -100, autoAlpha: 0, duration: 0.8, ease: 'expo.inOut' }, 4.75)
       .add(function () { intro(); }, 4.75)
       .to(loader, { autoAlpha: 0, duration: 0.9, ease: 'power2.inOut' }, 4.85)
-      .add(function () { loader.style.display = 'none'; if (lenis) lenis.start(); }, 5.75);
+      .add(function () { loader.style.display = 'none'; gsap.ticker.lagSmoothing(0); if (lenis) lenis.start(); }, 5.75);
   }
 
   if (reduce || !loader) {
+    gsap.ticker.lagSmoothing(0);
     if (loader) loader.style.display = 'none';
     if (navbar) navbar.classList.remove('hide');
     if (!reduce) intro();
@@ -425,11 +444,11 @@
     runLoader();
   }
 
-  /* ── Telemóveis "no sítio" (tablet e telemóvel): rodam um pouco ao passar ── */
+  /* ── Telemóveis "no sítio" (tablet e telemóvel): flutuam e inclinam com o scroll ── */
   if (!reduce && !desktop.matches) {
-    $$('[data-mphone] .m-frame').forEach(function (f) {
-      gsap.fromTo(f, { rotationY: -24, rotationX: 10 }, { rotationY: 24, rotationX: -6, ease: 'none',
-        scrollTrigger: { trigger: f, start: 'top bottom', end: 'bottom top', scrub: true } });
+    $$('[data-mphone] img').forEach(function (img, i) {
+      gsap.to(img, { y: -10, duration: 3 + i * 0.3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      gsap.fromTo(img, { rotation: -4 }, { rotation: 4, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
   }
 
@@ -482,10 +501,70 @@
     gsap.from('.mcard', { y: 90, autoAlpha: 0, duration: 1.1, stagger: 0.07, ease: 'expo.out',
       scrollTrigger: { trigger: '#track', start: 'top 88%', once: true } });
 
-    gsap.from('.q', { x: 80, autoAlpha: 0, duration: 1.1, stagger: 0.09, ease: 'expo.out', scrollTrigger: { trigger: '.qlist', start: 'top 78%', once: true } });
 
     gsap.from('footer .word', { yPercent: 60, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: true } });
   }
+
+  /* ── Perguntas: notificações da app a vaguear pela secção ── */
+  (function () {
+    var field = $('#nfField'); if (!field) return;
+    var section = field.parentNode;
+    var wraps = $$('.nf-wrap', field), cards = $$('.nf', field);
+    var big = desktop.matches;
+    var amp = big ? { x: 30, y: 22, r: 2.4 } : { x: 7, y: 5, r: 1.1 };
+    var DEPTH = [0.7, 1, 0.55, 0.9, 0.8, 0.6, 0.45, 1.1];
+    var active = false;
+
+    // cada notificação anda à deriva por um caminho próprio, sempre diferente
+    cards.forEach(function (c) {
+      function wander() {
+        c._t = gsap.to(c, {
+          x: gsap.utils.random(-amp.x, amp.x), y: gsap.utils.random(-amp.y, amp.y), rotation: gsap.utils.random(-amp.r, amp.r),
+          duration: gsap.utils.random(3.6, 6.4), ease: 'sine.inOut', onComplete: wander
+        });
+        if (!active) c._t.pause();
+      }
+      wander();
+      // ao passar o rato, para e aproxima-se (para ler com calma)
+      on(c, 'pointerenter', function () { if (c._t) c._t.pause(); gsap.to(c, { scale: 1.04, duration: 0.4, ease: 'power3.out' }); });
+      on(c, 'pointerleave', function () { gsap.to(c, { scale: 1, duration: 0.5, ease: 'power3.out' }); if (c._t && active) c._t.resume(); });
+    });
+
+    // chegam como notificações: deslizam de cima, desfasadas
+    gsap.set(wraps, { autoAlpha: 0, yPercent: -60, scale: 0.9 });
+    ST.create({ trigger: section, start: 'top 72%', once: true, onEnter: function () {
+      gsap.to(wraps, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 0.9, ease: 'back.out(1.6)', stagger: { each: 0.12, from: 'random' } });
+    } });
+
+    // profundidade: cada uma mexe a uma velocidade diferente com o scroll e com o rato
+    if (big) {
+      wraps.forEach(function (w, i) {
+        var d = DEPTH[i % DEPTH.length];
+        gsap.fromTo(w, { y: 90 * d }, { y: -90 * d, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true } });
+        w._qx = gsap.quickTo(w, 'x', { duration: 1.4, ease: 'power3.out' });
+        w._d = d;
+      });
+      on(window, 'pointermove', function (ev) {
+        if (!active) return;
+        var mx = ev.clientX / window.innerWidth - 0.5;
+        wraps.forEach(function (w) { w._qx(-mx * 40 * w._d); });
+      }, { passive: true });
+    }
+
+    // de vez em quando, uma "acabou de chegar"
+    var pingTimer = null;
+    function ping() {
+      var c = cards[Math.floor(Math.random() * cards.length)];
+      if (!c.offsetParent) return;
+      c.classList.remove('ping'); void c.offsetWidth; c.classList.add('ping');
+    }
+    ST.create({ trigger: section, start: 'top bottom', end: 'bottom top', onToggle: function (s) {
+      active = s.isActive;
+      cards.forEach(function (c) { if (c._t) { if (active) c._t.resume(); else c._t.pause(); } });
+      if (active && !pingTimer) pingTimer = setInterval(ping, 3200);
+      if (!active && pingTimer) { clearInterval(pingTimer); pingTimer = null; }
+    } });
+  })();
 
   /* ── Vídeo do cartão grande: só toca quando visível ── */
   $$('video[data-lazyplay]').forEach(function (v) {

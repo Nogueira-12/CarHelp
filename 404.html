@@ -29,9 +29,8 @@
     .e-title { position: absolute; left: 36px; top: 30px; margin: 0; font-size: 3em; line-height: 1.04; font-weight: 400; letter-spacing: -.02em; color: var(--dim); z-index: 3; }
     .e-brand { position: absolute; right: var(--pad); top: 36px; font-size: 1.25em; letter-spacing: -.02em; color: var(--dim); z-index: 3; }
     .e-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; display: grid; place-items: center; }
-    .e-img { position: absolute; width: 7.6em; aspect-ratio: .462; border-radius: 1.1em; overflow: hidden; background: #07080a; padding: .22em;
-      box-shadow: 0 0 0 1px #3a3f4a inset, 0 30px 70px rgba(0, 0, 0, .6); transform: perspective(900px) rotateY(-22deg) rotateX(12deg) rotateZ(8deg); }
-    .e-img img { position: absolute; inset: .22em; width: calc(100% - .44em); height: calc(100% - .44em); object-fit: cover; border-radius: .9em; opacity: 0; }
+    .e-img { position: absolute; width: 9.4em; aspect-ratio: 2 / 3; }
+    .e-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
     .e-num { position: relative; display: flex; font-size: 10.5em; line-height: 1; height: 1em; overflow: hidden; letter-spacing: -.03em; color: #e4e4ee;
       text-shadow: 0 0 40px rgba(170, 160, 255, .35); font-variant-numeric: tabular-nums; z-index: 2; mix-blend-mode: normal; }
     .e-col { display: block; position: relative; width: .58em; height: 1em; overflow: hidden; }
@@ -46,7 +45,7 @@
       .e-title { left: 24px; font-size: 2.2em; }
       .e-bottom { left: 24px; right: 24px; bottom: 28px; }
       .e-num { font-size: 6.5em; }
-      .e-img { width: 5.6em; }
+      .e-img { width: 7em; }
     }
   </style>
 </head>
@@ -65,9 +64,9 @@
     <a class="e-brand" href="index.html">CarHelp</a>
     <div class="e-center" aria-label="Erro 404">
       <div class="e-img" id="eImg" aria-hidden="true">
-        <img src="media/screen-inicio.jpg" alt="">
-        <img src="media/screen-analise.jpg" alt="">
-        <img src="media/screen-garagem.jpg" alt="">
+        <img src="media/phone-inicio.webp" alt="">
+        <img src="media/phone-analise.webp" alt="">
+        <img src="media/phone-garagem.webp" alt="">
       </div>
       <div class="e-num" id="eNum" aria-hidden="true"><span class="e-col"></span><span class="e-col"></span><span class="e-col"></span></div>
     </div>
