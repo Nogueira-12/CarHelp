@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarHelp — Informação legal</title>
+  <meta name="description" content="Política de privacidade, termos de utilização e eliminação de conta da app CarHelp.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div>
+      <a class="brand" href="index.html">CarHelp</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="eliminar-conta.html">Eliminar conta</a>
+    </div>
+  </header>
+  <main>
+    <h1>CarHelp</h1>
+    <p class="muted">Este orçamento é justo? — app para Android de Nogueira Dev.</p>
+    <div class="card">
+      <p><a href="privacidade.html"><strong>Política de privacidade</strong></a><br>
+        Que dados a app trata, para quê, com quem e durante quanto tempo.</p>
+      <p><a href="eliminar-conta.html"><strong>Eliminar a conta e os dados</strong></a><br>
+        Como pedir a eliminação da conta CarHelp e o que é apagado.</p>
+      <p><a href="termos.html"><strong>Termos de utilização e subscrição</strong></a><br>
+        Condições de uso, preços, período gratuito e cancelamento.</p>
+    </div>
+    <p>Contacto: <a href="mailto:support@carhelp.pt">support@carhelp.pt</a></p>
+  </main>
+</body>
+</html>
