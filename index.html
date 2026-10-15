@@ -32,10 +32,14 @@
 
   <canvas id="gl" aria-hidden="true"></canvas>
   <div class="bg-fallback" aria-hidden="true"></div>
-  <div class="fallback-wheel" aria-hidden="true"></div>
+  <img class="fallback-logo" src="media/app-icon.png" alt="" aria-hidden="true">
   <div class="noise" aria-hidden="true"></div>
   <div class="cursor-glow" aria-hidden="true"></div>
-  <div class="progress" aria-hidden="true"></div>
+  <svg class="ecg-top" id="ecgTop" aria-hidden="true">
+    <defs><linearGradient id="ecgGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2f5bff"/><stop offset="1" stop-color="#ff4d6a"/></linearGradient></defs>
+    <path id="ecgPath" fill="none" stroke="url(#ecgGrad)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle id="ecgDot" r="5" cx="-10" cy="18"/>
+  </svg>
 
   <!-- ═════════ Navegação ═════════ -->
   <header class="nav">
@@ -374,6 +378,7 @@
   </footer>
 
   <script src="vendor/three.min.js"></script>
+  <script src="logo3d.js"></script>
   <script src="landing.js"></script>
 </body>
 </html>

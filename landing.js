@@ -195,6 +195,7 @@
       if (i === current) return;
       current = i;
       texts.forEach(function (t, k) { t.classList.toggle('on', k === i); });
+      if (typeof decode === 'function' && texts[i]) decode($('h3', texts[i]));
       scrs.forEach(function (s, k) { s.classList.toggle('on', k === i); });
       dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
     }
@@ -217,6 +218,7 @@
     var root = $('#pinVideo');
     if (!root) return null;
     var box = $('#videoBox'), video = $('#promo'), soundBtn = $('#soundBtn');
+    if (!video) return null;
     var mq = window.matchMedia('(max-width: 760px), (orientation: portrait)');
     var SRC = { mobile: 'media/carhelp-mobile.mp4', desktop: 'media/carhelp-desktop.mp4' };
     var POSTER = { mobile: 'media/poster-mobile.jpg', desktop: 'media/poster-desktop.jpg' };
@@ -282,170 +284,96 @@
     btns.forEach(function (b) { on(b, 'click', function () { set(b.getAttribute('data-mode')); }); });
   })();
 
-  /* ── 10. Cena WebGL: roda 3D + partículas ─────────────────────────────── */
+  /* ── 10. Logo 3D (WebGL) ──────────────────────────────────────────────── */
   var gl = (function () {
     var canvas = $('#gl');
-    if (!canvas || !window.THREE) { doc.classList.add('no-gl'); if (canvas) canvas.style.display = 'none'; return null; }
-    var THREE = window.THREE, renderer;
-    try {
-      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-    } catch (err) { doc.classList.add('no-gl'); canvas.style.display = 'none'; return null; }
-
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0, 7.4);
-
-    scene.add(new THREE.AmbientLight(0x8fa2ff, 0.55));
-    var l1 = new THREE.PointLight(0x4f7bff, 2.6, 40); l1.position.set(4, 3, 5); scene.add(l1);
-    var l2 = new THREE.PointLight(0xa855f7, 2.0, 40); l2.position.set(-4, -2, 4); scene.add(l2);
-    var l3 = new THREE.DirectionalLight(0xffffff, 0.9); l3.position.set(0, 5, 6); scene.add(l3);
-
-    // ── A roda ──
-    var wheel = new THREE.Group();   // posição / inclinação
-    var spin = new THREE.Group();    // rotação sobre o eixo
-    wheel.add(spin);
-
-    var rubber = new THREE.MeshStandardMaterial({ color: 0x0c0f18, roughness: 0.85, metalness: 0.1 });
-    var metal = new THREE.MeshStandardMaterial({ color: 0xaab6d6, roughness: 0.28, metalness: 0.85 });
-    var dark = new THREE.MeshStandardMaterial({ color: 0x1a2036, roughness: 0.5, metalness: 0.6 });
-
-    var tire = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.4, 32, 96), rubber);
-    spin.add(tire);
-
-    // blocos do piso
-    var treadGeo = new THREE.BoxGeometry(0.14, 0.2, 0.58);
-    for (var i = 0; i < 60; i++) {
-      var a = (i / 60) * Math.PI * 2;
-      var blk = new THREE.Mesh(treadGeo, rubber);
-      blk.position.set(Math.cos(a) * 1.91, Math.sin(a) * 1.91, 0);
-      blk.rotation.z = a;
-      spin.add(blk);
+    var inst = null;
+    if (canvas && window.THREE && window.CarHelpLogo3D) {
+      try { inst = window.CarHelpLogo3D.create(canvas, { reduce: reduce, coarse: coarse }); } catch (err) { inst = null; }
     }
-
-    var barrel = new THREE.Mesh(new THREE.CylinderGeometry(1.12, 1.12, 0.62, 64, 1, true), metal);
-    barrel.rotation.x = Math.PI / 2; barrel.material.side = THREE.DoubleSide;
-    spin.add(barrel);
-
-    var disc = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.06, 48), dark);
-    disc.rotation.x = Math.PI / 2; disc.position.z = 0.06;
-    spin.add(disc);
-
-    var spokeGeo = new THREE.BoxGeometry(0.24, 0.98, 0.09);
-    spokeGeo.translate(0, 0.6, 0);
-    for (var s = 0; s < 5; s++) {
-      var sp = new THREE.Mesh(spokeGeo, metal);
-      sp.rotation.z = (s / 5) * Math.PI * 2;
-      sp.position.z = 0.26;
-      spin.add(sp);
-    }
-    var hub = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.16, 32), metal);
-    hub.rotation.x = Math.PI / 2; hub.position.z = 0.32;
-    spin.add(hub);
-
-    var nutGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.08, 6);
-    for (var nn = 0; nn < 5; nn++) {
-      var na = (nn / 5) * Math.PI * 2 + 0.3;
-      var nut = new THREE.Mesh(nutGeo, dark);
-      nut.rotation.x = Math.PI / 2;
-      nut.position.set(Math.cos(na) * 0.18, Math.sin(na) * 0.18, 0.4);
-      spin.add(nut);
-    }
-    var neon = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.028, 16, 128), new THREE.MeshBasicMaterial({ color: 0x6f93ff }));
-    neon.position.z = 0.3;
-    spin.add(neon);
-    var neon2 = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.012, 12, 128), new THREE.MeshBasicMaterial({ color: 0xa855f7 }));
-    neon2.position.z = 0.42;
-    spin.add(neon2);
-
-    wheel.rotation.set(0.18, -0.55, 0);
-    scene.add(wheel);
-
-    // ── Partículas ──
-    var count = coarse ? 450 : 1100;
-    var pos = new Float32Array(count * 3);
-    for (var p = 0; p < count; p++) {
-      pos[p * 3] = (Math.random() - 0.5) * 18;
-      pos[p * 3 + 1] = (Math.random() - 0.5) * 11;
-      pos[p * 3 + 2] = -7 + Math.random() * 9;
-    }
-    var pg = new THREE.BufferGeometry();
-    pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    var pm = new THREE.PointsMaterial({ color: 0x7c9bff, size: 0.04, transparent: true, opacity: 0.85, depthWrite: false, blending: THREE.AdditiveBlending });
-    var points = new THREE.Points(pg, pm);
-    scene.add(points);
-
-    // ── Estado ──
-    var state = { mx: 0, my: 0, tx: 0, ty: 0, scroll: 0, last: 0, vel: 0, spin: 0 };
-    var aspect = 1, docH = 0;
-
-    function resize() {
-      var w = window.innerWidth, h = window.innerHeight;
-      renderer.setSize(w, h, false);
-      aspect = w / h;
-      camera.aspect = aspect;
-      camera.updateProjectionMatrix();
-      docH = Math.max(document.documentElement.scrollHeight, h + 1);
-    }
-    resize();
-    on(window, 'resize', resize);
-    on(window, 'load', resize);
-    if (!coarse) {
-      on(window, 'pointermove', function (e) {
-        state.mx = (e.clientX / window.innerWidth - 0.5) * 2;
-        state.my = (e.clientY / window.innerHeight - 0.5) * 2;
-      }, { passive: true });
-    }
-
-    // posição/opacidade da roda conforme o scroll
-    function place(y) {
-      var vh = window.innerHeight;
-      if (!docH) docH = Math.max(document.documentElement.scrollHeight, vh + 1);
-      var hero = ease(clamp(y / (vh * 0.9), 0, 1));
-      var end = ease(clamp((y - (docH - vh * 2.6)) / (vh * 1.3), 0, 1));
-      var wide = aspect > 1.05;
-      var x0 = wide ? 2.5 : 0, x1 = wide ? 4.1 : 2.8;
-      var x = lerp(lerp(x0, x1, hero), 0, end);
-      var yy = lerp(lerp(wide ? 0 : 0.8, -0.4, hero), 0, end);
-      var sc = lerp(lerp(wide ? 1 : 0.8, 0.9, hero), 1.05, end);
-      var op = lerp(lerp(1, wide ? 0.5 : 0.3, hero), 0.95, end);
-      return { x: x, y: yy, s: sc, o: op };
-    }
-
-    var running = !reduce, raf = 0, t0 = performance.now(), prev = t0;
-    function frame(now) {
-      raf = requestAnimationFrame(frame);
-      var dt = Math.min(0.05, (now - prev) / 1000); prev = now;
-      var y = window.pageYOffset || 0;
-      state.vel = lerp(state.vel, (y - state.last) * 0.0025, 0.2);
-      state.last = y;
-      state.tx = lerp(state.tx, state.mx, 0.06);
-      state.ty = lerp(state.ty, state.my, 0.06);
-
-      var pl = place(y);
-      wheel.position.x = lerp(wheel.position.x, pl.x, 0.08);
-      wheel.position.y = lerp(wheel.position.y, pl.y, 0.08);
-      var sc = lerp(wheel.scale.x, pl.s, 0.08); wheel.scale.set(sc, sc, sc);
-      canvas.style.opacity = pl.o.toFixed(3);
-
-      state.spin += dt * 0.55 + state.vel;
-      spin.rotation.z = -state.spin;
-      wheel.rotation.y = -0.55 + state.tx * 0.45 + Math.sin(now * 0.0004) * 0.08;
-      wheel.rotation.x = 0.18 + state.ty * 0.25;
-      points.rotation.y += dt * 0.025 + state.vel * 0.1;
-      points.rotation.x = state.ty * 0.05;
-      l1.position.x = 4 + state.tx * 2; l1.position.y = 3 - state.ty * 2;
-      renderer.render(scene, camera);
-    }
-    function start() { if (!raf) { prev = performance.now(); raf = requestAnimationFrame(frame); } }
-    function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
-    if (running) start(); else { renderer.render(scene, camera); }
-    on(document, 'visibilitychange', function () { if (document.hidden) stop(); else if (running) start(); });
-    return { renderOnce: function () { renderer.render(scene, camera); } };
+    if (!inst) { doc.classList.add('no-gl'); if (canvas) canvas.style.display = 'none'; }
+    return inst;
   })();
 
+  /* ── 10b. Linha ECG que se desenha com o scroll ───────────────────────── */
+  var ecgTop = (function () {
+    var svg = $('#ecgTop');
+    if (!svg) return null;
+    var path = $('#ecgPath', svg), dot = $('#ecgDot', svg);
+    if (!path || !dot) return null;
+    var len = 0;
+    var NS = 'http://www.w3.org/2000/svg';
+    function build() {
+      var W = Math.max(320, window.innerWidth), y = 18, d = 'M0 ' + y, x = 0, period = 170;
+      while (x < W + period) {
+        d += ' L' + (x + 50) + ' ' + y + ' L' + (x + 62) + ' ' + (y - 4) + ' L' + (x + 74) + ' ' + y +
+             ' L' + (x + 88) + ' ' + y + ' L' + (x + 94) + ' ' + (y + 4) + ' L' + (x + 102) + ' ' + (y - 13) +
+             ' L' + (x + 111) + ' ' + (y + 11) + ' L' + (x + 120) + ' ' + y + ' L' + (x + 134) + ' ' + y +
+             ' L' + (x + 148) + ' ' + (y - 5) + ' L' + (x + 160) + ' ' + y + ' L' + (x + period) + ' ' + y;
+        x += period;
+      }
+      path.setAttribute('d', d);
+      len = path.getTotalLength ? path.getTotalLength() : 0;
+      path.style.strokeDasharray = len + ' ' + len;
+    }
+    build();
+    on(window, 'resize', build);
+    return {
+      set: function (p) {
+        if (!len) return;
+        path.style.strokeDashoffset = (len * (1 - p)).toFixed(1);
+        var pt = path.getPointAtLength(len * p);
+        dot.setAttribute('cx', pt.x.toFixed(1)); dot.setAttribute('cy', pt.y.toFixed(1));
+      }
+    };
+  })();
+
+  /* ── 10c. Títulos que se "descodificam" ───────────────────────────────── */
+  var decode = (function () {
+    var CH = '▮▯#%&@$01<>/+=?';
+    function nodesOf(el) {
+      var out = [], w = document.createTreeWalker ? document.createTreeWalker(el, 4) : null;
+      if (!w) return out;
+      var n; while ((n = w.nextNode())) { if (n.nodeValue.trim()) out.push(n); }
+      return out;
+    }
+    return function run(el) {
+      if (reduce || !el || el.__decoding) return;
+      var nodes = nodesOf(el);
+      if (!nodes.length) return;
+      el.__decoding = true;
+      var originals = nodes.map(function (n) { return n.nodeValue; });
+      var total = originals.reduce(function (a, t) { return a + t.length; }, 0);
+      var t0 = performance.now(), DUR = 650;
+      (function step(now) {
+        var k = clamp((now - t0) / DUR, 0, 1), reveal = k * total * 1.25, idx = 0;
+        nodes.forEach(function (n, ni) {
+          var src = originals[ni], out = '';
+          for (var i = 0; i < src.length; i++, idx++) {
+            var c = src[i];
+            out += (c === ' ' || idx < reveal - 6 || k >= 1) ? c : CH[Math.floor(Math.random() * CH.length)];
+          }
+          n.nodeValue = out;
+        });
+        if (k < 1) requestAnimationFrame(step); else el.__decoding = false;
+      })(t0);
+    };
+  })();
+  $$('.h2, .final h2').forEach(function (h) { h.setAttribute('data-decode', ''); });
+  if (!reduce && 'MutationObserver' in window) {
+    var mo = new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
+        var el = m.target;
+        if (el.hasAttribute && el.hasAttribute('data-decode') && el.classList.contains('in') && !el.__decoded) {
+          el.__decoded = true; decode(el);
+        }
+      });
+    });
+    $$('[data-decode]').forEach(function (h) { mo.observe(h, { attributes: true, attributeFilter: ['class'] }); });
+  }
+
   /* ── 11. Motor de scroll (um só rAF para tudo) ────────────────────────── */
-  var navEl = $('.nav'), progEl = $('.progress');
+  var navEl = $('.nav');
   function pinProgress(el) {
     var r = el.getBoundingClientRect();
     var total = r.height - window.innerHeight;
@@ -456,26 +384,39 @@
     var r = el.getBoundingClientRect();
     return r.bottom > -200 && r.top < window.innerHeight + 200;
   }
+  /* faixas: deriva contínua + empurrão do scroll */
+  var mq = $('.marquee'), mqVisible = false, autoOff = 0, mqLast = 0;
+  function tickMarquee(now) {
+    requestAnimationFrame(tickMarquee);
+    if (!mqVisible || reduce) return;
+    var dt = Math.min(50, now - mqLast); mqLast = now;
+    autoOff += dt * 0.06;
+    var y = window.pageYOffset || 0;
+    tracks.forEach(function (t) {
+      if (!t.w) return;
+      var off = (autoOff + y * 0.35) % t.w;
+      var x = t.dir < 0 ? -off : -t.w + off;
+      t.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+    });
+  }
+  if (mq && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { mqVisible = en[0].isIntersecting; }, { rootMargin: '200px' }).observe(mq);
+    mqLast = performance.now();
+    requestAnimationFrame(tickMarquee);
+  }
+
   var ticking = false;
   function update() {
     ticking = false;
     var y = window.pageYOffset || 0;
     var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    if (progEl) progEl.style.transform = 'scaleX(' + clamp(y / max, 0, 1).toFixed(4) + ')';
+    if (ecgTop) ecgTop.set(clamp(y / max, 0, 1));
     if (navEl) navEl.classList.toggle('solid', y > 40);
 
     if (gauge && inView(gauge.root)) gauge.update(reduce ? 1 : pinProgress(gauge.root));
     if (phone && inView(phone.root)) phone.update(reduce ? 0 : pinProgress(phone.root));
     if (cinema && inView(cinema.root)) cinema.update(reduce ? 1 : pinProgress(cinema.root));
 
-    if (!reduce) {
-      tracks.forEach(function (t) {
-        if (!t.w) return;
-        var off = (y * 0.35) % t.w;
-        var x = t.dir < 0 ? -off : -t.w + off;
-        t.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
-      });
-    }
     if (reduce && gl) gl.renderOnce();
   }
   function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
