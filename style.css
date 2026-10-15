@@ -1,21 +1,13 @@
 /* ───────────────────────── Base (todas as páginas) ───────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap");
+/* Páginas legais — mesmo visual do site */
 :root {
-  --bg: #ffffff;
-  --fg: #1b1f2a;
-  --muted: #5b6475;
-  --brand: #1b4ddb;
-  --card: #f4f6fb;
-  --line: #dde1ea;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1218;
-    --fg: #e7eaf0;
-    --muted: #9aa3b2;
-    --brand: #7c9bff;
-    --card: #181d27;
-    --line: #2a3140;
-  }
+  --bg: #0a0a0b;
+  --fg: #ceced7;
+  --muted: #676a79;
+  --brand: #8fb0ff;
+  --card: #17191d;
+  --line: #2a2d33;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -23,7 +15,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font: 17px/1.6 "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
@@ -31,12 +23,12 @@ header.site { border-bottom: 1px solid var(--line); }
 header.site div { max-width: 760px; margin: 0 auto; padding: 14px 16px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
 header.site a { color: var(--fg); text-decoration: none; font-weight: 600; }
 header.site a.brand { color: var(--brand); font-weight: 800; margin-right: auto; }
-h1 { font-size: 1.9rem; line-height: 1.2; margin: 8px 0 4px; }
-h2 { font-size: 1.25rem; margin: 32px 0 8px; }
+h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1; font-weight: 400; letter-spacing: -.02em; margin: 24px 0 10px; }
+h2 { font-size: 1.6rem; font-weight: 400; letter-spacing: -.01em; margin: 40px 0 10px; }
 p, li { color: var(--fg); }
 .muted { color: var(--muted); font-size: 0.9rem; }
 a { color: var(--brand); }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 16px 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 16px 18px; margin: 16px 0; }
 ol.steps { padding-left: 1.25rem; }
 ol.steps li { margin: 8px 0; }
 table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.95rem; }

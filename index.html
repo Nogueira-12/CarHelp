@@ -1,384 +1,402 @@
 <!doctype html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CarHelp — Este orçamento é justo?</title>
-  <meta name="description" content="Fotografa o orçamento da oficina e descobre em 1 minuto se o preço é justo. Percebe luzes do painel, barulhos e códigos de erro, e organiza a manutenção do teu carro.">
-  <meta name="theme-color" content="#06080f">
+  <meta name="description" content="Fotografa o orçamento da oficina e descobre em 1 minuto se o preço é justo. Percebe luzes do painel, barulhos e códigos de erro, e mantém o carro em dia.">
+  <meta name="theme-color" content="#0a0a0b">
   <link rel="icon" type="image/png" href="media/app-icon.png">
   <link rel="apple-touch-icon" href="media/app-icon.png">
-
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_PT">
   <meta property="og:title" content="CarHelp — Este orçamento é justo?">
   <meta property="og:description" content="Descobre em 1 minuto se o orçamento da oficina é justo. Decide com confiança em vez de pagar às cegas.">
   <meta property="og:image" content="media/poster-desktop.jpg">
   <meta name="twitter:card" content="summary_large_image">
-
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="landing.css">
-</head>
-<body class="landing">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <!--
-    ┌───────────────────────────────────────────────────────────────────────┐
-    │ QUANDO A APP ESTIVER PUBLICADA, preenche só esta linha:               │
-    │   window.PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.tomas.car_help"; │
-    │ Todos os botões passam de "Brevemente" para "Obter na Google Play".   │
-    └───────────────────────────────────────────────────────────────────────┘
+    QUANDO A APP ESTIVER PUBLICADA, preenche só esta linha:
+      window.PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.tomas.car_help";
   -->
   <script>window.PLAY_STORE_URL = "";</script>
+</head>
+<body>
 
-  <canvas id="gl" aria-hidden="true"></canvas>
-  <div class="bg-fallback" aria-hidden="true"></div>
-  <img class="fallback-logo" src="media/app-icon.png" alt="" aria-hidden="true">
-  <div class="noise" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
-  <svg class="ecg-top" id="ecgTop" aria-hidden="true">
-    <defs><linearGradient id="ecgGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2f5bff"/><stop offset="1" stop-color="#ff4d6a"/></linearGradient></defs>
-    <path id="ecgPath" fill="none" stroke="url(#ecgGrad)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <circle id="ecgDot" r="5" cx="-10" cy="18"/>
+  <!-- Ícones -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+      <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9h16M4 15h16"/></symbol>
+      <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l2.5-6 4 12 2.5-6H22"/></symbol>
+      <symbol id="i-gplay" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 1.6a1.3 1.3 0 0 0-.6 1.1v18.6c0 .5.2.9.6 1.1l10.4-10.4L3.6 1.6Zm11.8 9.3 2.9-2.9L5 1.4l10.4 9.5Zm0 2.2L5 22.6l13.3-6.6-2.9-2.9Zm4.9-3.5-3.3 1.9 3.3 1.9 1-.6a1 1 0 0 0 0-1.8l-1-.6Z"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+      <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+      <symbol id="i-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M8 7v10M4 10v4M16 7v10M20 10v4"/></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/></symbol>
+      <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-6a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 7l2 6"/><path d="M3 13h18v4H3z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2M17 6l3 3M14 9l2 2"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h11v10H2zM13 10h4l4 4v2h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .5-9h-1.3A7 7 0 1 0 4 15.3M12 12v9M8.5 15.5 12 12l3.5 3.5"/></symbol>
+    </defs>
   </svg>
 
-  <!-- ═════════ Navegação ═════════ -->
-  <header class="nav">
-    <div class="wrap">
-      <a class="logo" href="#topo"><img src="media/app-icon.png" alt="" width="34" height="34">CarHelp</a>
-      <a class="link" href="#manometro">O preço</a>
-      <a class="link" href="#app">A app</a>
-      <a class="link" href="#funcionalidades">Funcionalidades</a>
-      <a class="link" href="#planos">Planos</a>
-      <a class="link" href="#faq">Perguntas</a>
-      <a class="btn btn-primary btn-sm magnetic" data-play-btn href="#download">Google Play</a>
+  <!-- Carregamento -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="top"><span class="mark"><img src="media/app-icon.png" alt="">CarHelp</span><span class="p3 grey">A preparar o teu copiloto</span></div>
+    <div>
+      <div class="bar"><i id="loaderBar"></i></div>
+      <div class="count"><span id="loaderNum">0</span></div>
     </div>
-  </header>
+  </div>
+  <div class="curtain" id="curtain" aria-hidden="true"></div>
+
+  <!-- Barra flutuante -->
+  <div class="topbar glass" id="topbar">
+    <a class="brand" href="#topo" data-scroll><img src="media/app-icon.png" alt="">CarHelp</a>
+    <a class="btn" href="#download" data-scroll><span class="bg"></span>Experimentar grátis</a>
+    <button class="ibtn ink" type="button" id="menuOpen" aria-label="Abrir menu"><span class="fill"></span><svg><use href="#i-menu"/></svg></button>
+  </div>
+
+  <!-- Menu -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="head">
+      <span class="h5">CarHelp</span>
+      <button class="ibtn ink" type="button" id="menuClose" aria-label="Fechar menu"><span class="fill"></span><svg><use href="#i-close"/></svg></button>
+    </div>
+    <nav>
+      <a href="#topo" data-scroll><small>01</small><span class="line"><span class="h2">Início</span></span></a>
+      <a href="#orcamentos" data-scroll><small>02</small><span class="line"><span class="h2">Orçamentos</span></span></a>
+      <a href="#ajuda" data-scroll><small>03</small><span class="line"><span class="h2">Funcionalidades</span></span></a>
+      <a href="#planos" data-scroll><small>04</small><span class="line"><span class="h2">Planos</span></span></a>
+      <a href="#perguntas" data-scroll><small>05</small><span class="line"><span class="h2">Perguntas</span></span></a>
+    </nav>
+    <div class="foot p3">
+      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>
+      <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a></span>
+    </div>
+  </div>
+
+  <!-- Telemóvel que acompanha o scroll (ecrãs reais da app) -->
+  <div class="rig" aria-hidden="true">
+    <div class="phone" id="phone">
+     <div class="float" id="phoneFloat">
+      <div class="frame">
+        <div class="screen">
+          <img src="media/screen-garagem.jpg" alt="" data-screen="0" class="on">
+          <img src="media/screen-analise.jpg" alt="" data-screen="1">
+          <img src="media/screen-inicio.jpg" alt="" data-screen="2">
+        </div>
+      </div>
+      <div class="island"></div>
+      <div class="shine"></div>
+      <div class="side"></div>
+     </div>
+    </div>
+  </div>
 
   <main id="topo">
 
-    <!-- ═════════ Hero ═════════ -->
-    <section class="hero">
-      <div class="wrap">
-        <div class="hero-copy">
-          <span class="eyebrow" data-reveal>Para condutores, não para mecânicos</span>
-          <h1 data-split style="margin-top:16px">
-            <span class="line">Este orçamento</span>
-            <span class="line">é <em class="hl">justo?</em></span>
-          </h1>
-          <p class="sub" data-reveal style="--d:.5s">Fotografa o orçamento da oficina e, em 1 minuto, sabes se o preço é justo, o que é urgente e o que perguntar ao mecânico.</p>
-          <div class="cta-row" id="download" data-reveal style="--d:.65s">
-            <a class="store is-soon magnetic" data-play-link href="#">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 1.6a1.3 1.3 0 0 0-.6 1.1v18.6c0 .5.2.9.6 1.1l10.4-10.4L3.6 1.6Zm11.8 9.3 2.9-2.9L5 1.4l10.4 9.5Zm0 2.2L5 22.6l13.3-6.6-2.9-2.9Zm4.9-3.5-3.3 1.9 3.3 1.9 1-.6a1 1 0 0 0 0-1.8l-1-.6Z"/></svg>
-              <span><small data-play-small>Brevemente</small><strong>Google Play</strong></span>
-            </a>
-            <a class="btn btn-ghost magnetic" href="#manometro">Ver como funciona</a>
-          </div>
-          <p class="hero-note" data-play-note data-reveal style="--d:.8s">A app chega em breve à Google Play.</p>
-          <div class="chips" data-reveal style="--d:.9s">
-            <span class="chip"><i></i>Luz do motor</span>
-            <span class="chip red"><i></i>Travões</span>
-            <span class="chip"><i></i>P0420</span>
-            <span class="chip green"><i></i>Preço justo</span>
-          </div>
-        </div>
+    <!-- ═══ Hero ═══ -->
+    <section class="hero" data-phone="0">
+      <div class="aurora a1" data-parallax="-0.15"></div>
+      <div class="top">
+        <h1 class="h1" data-split>
+          <span class="line"><span>Este orçamento</span></span>
+          <span class="line"><span>é <span class="star"><svg><use href="#i-pulse"/></svg></span>justo?</span></span>
+        </h1>
+        <a class="logo" href="#topo" data-hero-in><img src="media/app-icon.png" alt="">CarHelp</a>
       </div>
-      <div class="scroll-hint" aria-hidden="true"><i></i>Desliza</div>
-    </section>
-
-    <!-- ═════════ Manómetro do preço (scroll) ═════════ -->
-    <section class="pin pin-gauge" id="manometro">
-      <div class="sticky" id="pinGauge">
-        <div class="wrap">
-          <div class="gauge-grid">
-            <svg class="gauge-svg" viewBox="0 0 400 236" role="img" aria-label="Manómetro que indica o preço do orçamento dentro do intervalo justo">
-              <circle cx="200" cy="200" r="168" fill="rgba(10,14,28,.55)" stroke="rgba(120,140,200,.2)"/>
-              <g id="gaugeG"></g>
-              <text x="40" y="226" fill="#7d89ab" font-size="13" font-weight="700">BARATO?</text>
-              <text x="200" y="40" fill="#7bf0b0" font-size="13" font-weight="800" text-anchor="middle">JUSTO</text>
-              <text x="360" y="226" fill="#ff8a8e" font-size="13" font-weight="700" text-anchor="end">CARO</text>
-              <g id="needle" transform="rotate(-82 200 200)">
-                <polygon points="195,205 205,205 200,52" fill="#ffffff"/>
-                <polygon points="199,205 201,205 200,52" fill="#2f5bff" opacity=".5"/>
-              </g>
-              <circle cx="200" cy="200" r="13" fill="#0b0f1c" stroke="#fff" stroke-width="3"/>
-            </svg>
-            <div class="gauge-read">
-              <span class="eyebrow">Em 1 minuto</span>
-              <h2 class="h2">Sabes se o <span class="grad">preço é justo.</span></h2>
-              <p style="margin:14px 0 22px;max-width:440px">A CarHelp lê o orçamento linha a linha e compara com preços de referência para esse tipo de trabalho.</p>
-              <div class="big-num" id="gaugeNum">0,00 €</div>
-              <span class="range">Intervalo justo: 400 – 530 €</span><br>
-              <span class="verdict" id="verdict">✓ Preço justo · é seguro conduzir</span>
+      <div class="bottom">
+        <div>
+          <p class="p1" data-hero-in>Fotografa o orçamento da oficina e, em 1 minuto, <br class="br-d">sabes se o preço é justo, o que é urgente <br class="br-d">e o que perguntar ao mecânico.</p>
+          <div class="actions" data-hero-in>
+            <a class="btn" href="#download" data-scroll><span class="bg"></span>Experimentar grátis</a>
+            <a class="ibtn gborder" href="#orcamentos" data-scroll aria-label="Descer"><span class="fill"></span><svg><use href="#i-down"/></svg></a>
+            <button class="ibtn ink" type="button" data-video aria-label="Ver o vídeo"><span class="fill"></span><svg><use href="#i-play"/></svg></button>
+          </div>
+          <p class="p3 grey note" data-hero-in>* 10 dias grátis · cancelas quando quiseres</p>
+        </div>
+        <div class="cards">
+          <div class="card-tag glass" data-hero-in>
+            <p class="p2">Um copiloto calmo para as decisões que costumam sair caras.</p>
+            <div class="row">
+              <a class="ibtn gborder" href="#ajuda" data-scroll aria-label="Ver funcionalidades"><span class="fill"></span><svg><use href="#i-right"/></svg></a>
+              <a class="ibtn gborder" href="#planos" data-scroll aria-label="Ver planos"><span class="fill"></span><svg><use href="#i-gplay"/></svg></a>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═════════ Telemóvel 3D (scroll) ═════════ -->
-    <section class="pin pin-phone" id="app">
-      <div class="sticky" id="pinPhone">
-        <div class="wrap">
-          <div class="phone-grid">
-            <div class="steps" aria-live="polite">
-              <div class="step-t"><span class="n">01 — FOTOGRAFA</span><h3>Uma foto <span class="grad">chega.</span></h3><p>Orçamento, luz do painel ou um barulho estranho. Sem formulários.</p></div>
-              <div class="step-t"><span class="n">02 — PERCEBE</span><h3>Linha a linha, <span class="grad">sem mistério.</span></h3><p>Peças, mão de obra e IVA separados, intervalo justo e sinais de alerta.</p></div>
-              <div class="step-t"><span class="n">03 — DECIDE</span><h3>Posso <span class="grad">conduzir?</span></h3><p>Sabes o que é urgente, o que pode esperar e o que perguntar ao mecânico.</p></div>
-              <div class="step-t"><span class="n">04 — LEMBRA-TE</span><h3>Nunca mais <span class="grad">te esqueces.</span></h3><p>Revisão, inspeção, seguro e IUC avisam-te a tempo.</p></div>
-              <div class="step-t"><span class="n">05 — TUDO JUNTO</span><h3>A tua <span class="grad">garagem.</span></h3><p>Vários carros, histórico com faturas e partilha em família, sempre sincronizado.</p></div>
-              <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-            </div>
-
-            <div class="phone-stage">
-              <div class="phone" id="phone">
-                <div class="layer" style="transform:translateZ(-12px)"></div>
-                <div class="layer" style="transform:translateZ(-6px)"></div>
-                <div class="body"></div>
-                <div class="screen">
-                  <!-- 1. Fotografar -->
-                  <div class="scr">
-                    <div class="app-bar">Fotografar orçamento</div>
-                    <div class="paper">
-                      <h4>ORÇAMENTO Nº 2026/184</h4>
-                      <div class="ln"></div><div class="ln m"></div><div class="ln"></div><div class="ln s"></div><div class="ln m"></div><div class="ln"></div>
-                      <div class="tot"><span>TOTAL c/ IVA</span><span>479,98 €</span></div>
-                      <div class="scan"></div>
-                    </div>
-                    <div class="corners"></div>
-                    <div class="shutter"></div>
-                  </div>
-                  <!-- 2. Resultado -->
-                  <div class="scr">
-                    <div class="app-bar">Análise do orçamento <b>★</b></div>
-                    <div class="card-green"><span style="font-size:22px">👍</span><div><b>Preço justo</b><span>Dentro do intervalo normal para este trabalho.</span></div></div>
-                    <div class="kv"><div><small>Orçamento</small><strong>479,98 €</strong></div><div><small>Preço justo</small><strong class="ok">400–530 €</strong></div></div>
-                    <div class="bar"><i></i></div>
-                    <div class="box row"><div class="donut"></div><div>Peças 43%<br>Mão de obra 31%<br>Outros 25%</div></div>
-                    <div class="box g"><b>É seguro conduzir?</b><br>Sim, é seguro conduzir.</div>
-                  </div>
-                  <!-- 3. Luz do painel -->
-                  <div class="scr center-t">
-                    <div class="app-bar">Luz no painel</div>
-                    <div class="light"><svg viewBox="0 0 24 24"><path d="M7 5h3v2h4V5h2l1 2h2v3h2v5h-2v2h-3l-2 2H9l-2-2H4v-6H2V9h2V7h2l1-2Zm1 6v5h8v-5H8Z"/></svg></div>
-                    <b style="font-size:15px">Motor (check engine)</b>
-                    <div style="opacity:.6;margin-top:2px">Luz amarela / laranja</div>
-                    <div class="box a" style="text-align:left;margin-top:14px"><b>É seguro conduzir?</b><br>Com cuidado e por pouco tempo.</div>
-                    <div class="box" style="text-align:left">Pode conduzir com atenção, mas resolve na próxima ida à oficina.</div>
-                  </div>
-                  <!-- 4. Lembretes -->
-                  <div class="scr">
-                    <div class="app-bar">Próximas manutenções</div>
-                    <div class="rem"><i>🛢</i><div><b>Revisão e mudança de óleo</b><small>1 jan. 2027 · daqui a 3 meses</small></div></div>
-                    <div class="rem"><i>🛡</i><div><b>Inspeção periódica (IPO)</b><small>1 jan. 2027 · daqui a 3 meses</small></div></div>
-                    <div class="rem"><i>€</i><div><b>Imposto Único de Circulação</b><small>31 jan. 2027 · daqui a 4 meses</small></div></div>
-                    <div class="toast">🔔 <span>Revisão em 3 meses</span></div>
-                  </div>
-                  <!-- 5. Garagem (captura real) -->
-                  <div class="scr scr-img"><img src="media/screen-garagem.jpg" alt="Garagem da CarHelp com o carro, quilómetros e despesas" width="720" height="1493"></div>
-                </div>
-                <div class="island"></div>
-                <div class="glare"></div>
-                <div class="phone-shadow"></div>
-              </div>
-            </div>
+          <div class="card-video gborder" data-hero-in data-video role="button" tabindex="0" aria-label="Ver o vídeo">
+            <video src="media/carhelp-mobile.mp4" muted loop playsinline autoplay preload="metadata" poster="media/poster-mobile.jpg"></video>
+            <span class="circle-btn"><svg><use href="#i-play"/></svg></span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═════════ Faixas em movimento ═════════ -->
-    <div class="marquee" aria-hidden="true">
-      <div class="track"><span class="fill">Luz do motor</span><span>ABS</span><span class="warn">ESP</span><span class="fill">Pressão dos pneus</span><span>AdBlue</span><span class="warn">FAP / DPF</span><span class="fill">Airbag</span><span>Travões</span></div>
-      <div class="track"><span>P0420</span><span class="fill">P0300</span><span class="warn">P0171</span><span>P0093</span><span class="fill">P0401</span><span class="warn">P0113</span><span>P0087</span><span class="fill">P0562</span></div>
-    </div>
+    <!-- ═══ Orçamentos ═══ -->
+    <section class="feature" id="orcamentos" data-phone="1">
+      <div class="copy">
+        <h2 class="h1" data-split><span class="line"><span>Acaba com os</span></span><span class="line"><span>orçamentos</span></span><span class="line"><span>às cegas</span></span></h2>
+        <div class="stack">
+          <p class="p1" data-fade>Fotografa o orçamento e a CarHelp lê-o linha a linha: <br class="br-d">peças, mão de obra, taxas e IVA. Recebes o intervalo justo, <br class="br-d">a poupança possível e os sinais de alerta.</p>
+          <div class="row" data-fade>
+            <button class="ibtn gborder" type="button" data-video aria-label="Ver o vídeo"><span class="fill"></span><svg><use href="#i-play"/></svg></button>
+            <a class="ibtn ink" href="#ajuda" data-scroll aria-label="Continuar"><span class="fill"></span><svg><use href="#i-down"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-shot" data-fade><img src="media/screen-analise.jpg" alt="Análise do orçamento: preço justo, entre 400 e 530 euros" loading="lazy"></div>
+      <div class="callouts">
+        <div class="callout glass c-a" data-pop><i><svg><use href="#i-doc"/></svg></i><b>Linha a linha</b><span>Peças, mão de obra, taxas e IVA, separados e explicados.</span></div>
+        <div class="callout glass c-b" data-pop><i><svg><use href="#i-search"/></svg></i><b>Veredito claro</b><span>Preço justo, caro ou suspeito, com o intervalo normal.</span></div>
+      </div>
+    </section>
 
-    <!-- ═════════ Funcionalidades (cartões 3D) ═════════ -->
-    <section class="sec" id="funcionalidades">
-      <div class="wrap">
-        <span class="eyebrow" data-reveal>Funcionalidades</span>
-        <h2 class="h2" data-reveal>Tudo o que o teu carro <span class="grad">precisa de ti.</span></h2>
-        <div class="bento">
-          <article class="tilt c8" data-reveal>
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div>
-            <h3>Orçamento justo?</h3>
-            <p>Foto ao orçamento: peças, mão de obra, taxas e IVA separados, veredito, preço justo, poupança possível, sinais de alerta e as perguntas certas para o mecânico.</p>
-          </article>
-          <article class="tilt c4" data-reveal style="--d:.08s">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>
-            <h3>Luzes do painel</h3>
-            <p>O que significa e se podes continuar a conduzir.</p>
-          </article>
-          <article class="tilt c4" data-reveal>
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M8 7v10M4 10v4M16 7v10M20 10v4"/></svg></div>
-            <h3>Barulho estranho</h3>
-            <p>Grava o som e percebe as causas mais prováveis.</p>
-          </article>
-          <article class="tilt c4" data-reveal style="--d:.08s">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg></div>
-            <h3>Códigos OBD</h3>
-            <p>P0420, P0300… com custo típico e urgência.</p>
-          </article>
-          <article class="tilt c4" data-reveal style="--d:.16s">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div>
-            <h3>Alertas de manutenção</h3>
-            <p>Revisão, IPO, seguro, IUC e distribuição.</p>
-          </article>
-          <article class="tilt c6" data-reveal>
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 5 5h14l2 6M3 11v6h18v-6M3 11h18"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></div>
-            <h3>Garagem</h3>
-            <p>Vários carros, histórico com faturas, estatísticas de gastos e relatório PDF que valoriza o carro na revenda.</p>
-          </article>
-          <article class="tilt c6" data-reveal style="--d:.08s">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
-            <h3>Partilha em família</h3>
-            <p>O mesmo carro em duas contas, sincronizado em tempo real, com pedido e aceitação.</p>
-          </article>
-          <article class="tilt c12" data-reveal>
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-            <h3>Pergunta o que quiseres</h3>
-            <p>Um assistente que conhece o teu carro e o histórico de manutenção. Podes enviar fotos de peças, fugas e pneus.</p>
-          </article>
+    <!-- ═══ Percebe o carro ═══ -->
+    <section class="feature" id="ajuda" data-phone="2">
+      <div class="copy">
+        <h2 class="h1" data-split><span class="line"><span>Percebe o carro</span></span><span class="line"><span>sem ser</span></span><span class="line"><span>mecânico</span></span></h2>
+        <div class="stack">
+          <p class="p1" data-fade>Uma luz acendeu? Um barulho estranho? Um código de erro? <br class="br-d">Fotografa, grava ou escreve, e percebe se podes <br class="br-d">continuar a conduzir.</p>
+          <div class="row" data-fade>
+            <a class="ibtn gborder" href="#planos" data-scroll aria-label="Ver planos"><span class="fill"></span><svg><use href="#i-right"/></svg></a>
+            <button class="ibtn ink" type="button" data-video aria-label="Ver o vídeo"><span class="fill"></span><svg><use href="#i-play"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-shot" data-fade><img src="media/screen-inicio.jpg" alt="Ecrã inicial da CarHelp" loading="lazy"></div>
+      <div class="callouts">
+        <div class="callout glass c-a" data-pop><i><svg><use href="#i-warn"/></svg></i><b>Luz no painel</b><span>O que significa e se é seguro continuar.</span></div>
+        <div class="callout glass c-b" data-pop><i><svg><use href="#i-wave"/></svg></i><b>Barulho estranho</b><span>Grava o som e vê as causas mais prováveis.</span></div>
+        <div class="callout glass c-c" data-pop><i><svg><use href="#i-chip"/></svg></i><b>Códigos OBD</b><span>P0420, P0300… explicados em português.</span></div>
+      </div>
+    </section>
+
+    <!-- ═══ Vídeo num cartão grande ═══ -->
+    <section class="media-sec" data-phone="-1">
+      <div class="heads">
+        <h2 class="h1" data-split><span class="line"><span>A CarHelp</span></span></h2>
+        <h2 class="h1" data-split style="text-align:right"><span class="line"><span>no teu bolso</span></span></h2>
+      </div>
+      <div class="media-wrap">
+        <div class="media-card" id="mediaCard">
+          <video src="media/carhelp-desktop.mp4" muted loop playsinline preload="none" poster="media/poster-desktop.jpg" data-lazyplay></video>
+          <p class="h5">Fotografa, ouve e percebe. Decide com confiança em vez de pagar às cegas.</p>
+          <button class="circle-btn" type="button" data-video aria-label="Ver com som"><svg><use href="#i-play"/></svg></button>
         </div>
       </div>
     </section>
 
-    <!-- ═════════ Cinema (vídeo) ═════════ -->
-    <section class="pin pin-video" id="pinVideo">
+    <!-- ═══ Estatística ═══ -->
+    <section class="stats" data-phone="-1">
+      <div class="aurora a3"></div>
+      <h3 class="h0" style="position:relative">Em <span class="odo" data-odo="60"></span>s</h3>
+      <p class="h3" data-fade style="position:relative">Menos de um minuto para saberes se um orçamento é justo, <br class="br-d">antes de dizeres "sim" ao mecânico.</p>
+      <p class="p1 grey" data-fade style="position:relative">Sem comissões de oficinas. A análise é só a favor de quem conduz.</p>
+    </section>
+
+    <!-- ═══ Para quem é ═══ -->
+    <section class="who" data-phone="-1">
+      <div class="intro">
+        <h2 class="h2" data-split><span class="line"><span>Para quem conduz,</span></span><span class="line"><span>não para quem repara</span></span></h2>
+        <p class="p1 grey" data-fade>Seja o primeiro carro, o carro da família ou vários carros, a CarHelp ajuda-te a decidir melhor.</p>
+      </div>
+      <div class="who-grid">
+        <div class="who-card" style="--g:radial-gradient(circle at 30% 30%,#3b6bff,transparent 60%),radial-gradient(circle at 80% 80%,#8d3bff,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-car"/></svg></div><div class="dots"><i>🔧</i><i>⛽</i><i>🛞</i></div><span class="label">Dia a dia</span>
+        </div>
+        <div class="who-card" style="--g:radial-gradient(circle at 70% 25%,#ff5a8a,transparent 60%),radial-gradient(circle at 20% 80%,#3b6bff,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-users"/></svg></div><div class="dots"><i>👨</i><i>👩</i><i>🧒</i></div><span class="label">Famílias</span>
+        </div>
+        <div class="who-card" style="--g:radial-gradient(circle at 40% 30%,#3fd27f,transparent 60%),radial-gradient(circle at 70% 85%,#1a6bff,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-key"/></svg></div><div class="dots"><i>🎓</i><i>🚗</i><i>✨</i></div><span class="label">Primeiro carro</span>
+        </div>
+        <div class="who-card" style="--g:radial-gradient(circle at 30% 25%,#ffb020,transparent 60%),radial-gradient(circle at 80% 80%,#8d3bff,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-clock"/></svg></div><div class="dots"><i>🛠</i><i>📜</i><i>🏁</i></div><span class="label">Carros antigos</span>
+        </div>
+        <div class="who-card" style="--g:radial-gradient(circle at 60% 30%,#00c2ff,transparent 60%),radial-gradient(circle at 25% 80%,#3b6bff,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-search"/></svg></div><div class="dots"><i>🔍</i><i>📄</i><i>🤝</i></div><span class="label">Comprar usado</span>
+        </div>
+        <div class="who-card" style="--g:radial-gradient(circle at 35% 30%,#8d3bff,transparent 60%),radial-gradient(circle at 75% 80%,#ff5a5f,transparent 55%)" data-card>
+          <div class="art"><svg><use href="#i-truck"/></svg></div><div class="dots"><i>🚚</i><i>📊</i><i>🗓</i></div><span class="label">Vários carros</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Mantém o carro em dia ═══ -->
+    <section class="keep" data-phone="-1">
+      <h2 class="h1" data-split><span class="line"><span>Mantém o carro</span></span><span class="line"><span>em dia</span></span></h2>
+      <div class="keep-grid">
+        <div class="kblock glass" data-fade>
+          <div>
+            <h3 class="h3">Garagem</h3>
+            <p class="p1 grey" style="margin-top:14px">Vários carros, histórico com faturas e gastos do ano, sempre à mão.</p>
+            <div class="tags"><span class="tag"><i></i>Histórico</span><span class="tag"><i style="background:#3fd27f"></i>Faturas</span><span class="tag"><i style="background:#ffb020"></i>Estatísticas</span></div>
+          </div>
+          <div class="shots"><div class="phone-img"><img src="media/screen-garagem.jpg" alt="Garagem da CarHelp" loading="lazy"></div></div>
+        </div>
+        <div class="kblock glass" data-fade>
+          <div>
+            <h3 class="h3">Lembretes</h3>
+            <p class="p1 grey" style="margin-top:14px">Revisão, inspeção, seguro e IUC avisam-te a tempo, por data ou por quilómetros.</p>
+            <div class="tags"><span class="tag"><i></i>Revisão</span><span class="tag"><i style="background:#3fd27f"></i>IPO</span><span class="tag"><i style="background:#ffb020"></i>Seguro</span><span class="tag"><i style="background:#ff5a5f"></i>IUC</span></div>
+          </div>
+          <div class="shots"><div class="wide-img"><img src="media/poster-desktop.jpg" alt="Lembretes de manutenção na CarHelp" loading="lazy"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Ainda mais ═══ -->
+    <section class="more" data-phone="-1">
+      <div class="head">
+        <h2 class="h2" data-split><span class="line"><span>Ainda mais</span></span><span class="line"><span>com a CarHelp</span></span></h2>
+        <div style="display:flex;gap:8px">
+          <button class="ibtn ink" type="button" id="morePrev" aria-label="Anterior"><span class="fill"></span><svg><use href="#i-left"/></svg></button>
+          <button class="ibtn ink" type="button" id="moreNext" aria-label="Seguinte"><span class="fill"></span><svg><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+      <div class="track" id="track">
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-doc"/></svg></div><div><div class="big">PDF</div><p class="p1 grey" style="margin-top:12px">Relatório do histórico que valoriza o carro na revenda.</p></div></div>
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-users"/></svg></div><div><div class="big">Família</div><p class="p1 grey" style="margin-top:12px">O mesmo carro em duas contas, sincronizado em tempo real.</p></div></div>
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-chat"/></svg></div><div><div class="big">Pergunta</div><p class="p1 grey" style="margin-top:12px">Um assistente que conhece o teu carro e o histórico.</p></div></div>
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-chart"/></svg></div><div><div class="big">Gastos</div><p class="p1 grey" style="margin-top:12px">Quanto gastaste este ano e o custo por quilómetro.</p></div></div>
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-search"/></svg></div><div><div class="big">Comparar</div><p class="p1 grey" style="margin-top:12px">Dois orçamentos lado a lado, para escolheres melhor.</p></div></div>
+        <div class="mcard glass"><span class="glow"></span><div class="icon"><svg><use href="#i-cloud"/></svg></div><div><div class="big">Cópia</div><p class="p1 grey" style="margin-top:12px">Exporta ou elimina os teus dados quando quiseres.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ═══ Pergunta o que quiseres ═══ -->
+    <section class="ask" data-phone="-1">
       <div class="sticky">
-        <div class="video-clip">
-          <div class="video-box" id="videoBox">
-            <video id="promo" muted loop playsinline preload="metadata" poster="media/poster-desktop.jpg" aria-label="Vídeo de apresentação da CarHelp">
-              <source src="media/carhelp-desktop.mp4" type="video/mp4">
-            </video>
-            <div class="video-ui"><button id="soundBtn" type="button">Ativar som</button></div>
-          </div>
-        </div>
+        <h2 class="h2" data-split><span class="line"><span>Pergunta</span></span><span class="line"><span>o que quiseres</span></span></h2>
+        <p class="p1 grey" data-fade>O assistente da CarHelp conhece o teu carro e o histórico de manutenção. Podes enviar fotos de peças, fugas e pneus.</p>
+      </div>
+      <div class="qlist">
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Orçamento</small><p>Quanto custa trocar a embraiagem no meu carro?</p></div></div>
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Luz no painel</small><p>Posso conduzir com a luz do motor acesa?</p></div></div>
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Manutenção</small><p>Que manutenção devo fazer aos 100 000 km?</p></div></div>
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Oficina</small><p>O mecânico diz que preciso de discos novos. Como confirmo?</p></div></div>
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Peças</small><p>Vale a pena pagar mais por peças originais?</p></div></div>
+        <div class="q glass" data-fade><span class="av">?</span><div><small>Bateria</small><p>Como sei se a bateria está a acabar?</p></div></div>
       </div>
     </section>
 
-    <!-- ═════════ Planos ═════════ -->
-    <section class="sec" id="planos">
-      <div class="wrap" style="text-align:center">
-        <span class="eyebrow" data-reveal>Planos</span>
-        <h2 class="h2" data-reveal>Começa grátis. <span class="grad">Desbloqueia quando quiseres.</span></h2>
-        <p data-reveal style="max-width:560px;margin:14px auto 0">10 dias grátis para experimentares tudo. Cancelas a qualquer momento na Google Play.</p>
-        <div class="toggle year" id="planToggle" data-reveal>
+    <!-- ═══ Planos ═══ -->
+    <section class="plans-sec" id="planos" data-phone="-1">
+      <div class="head">
+        <h2 class="h1" data-split><span class="line"><span>Planos</span></span></h2>
+        <div class="switch year" id="switch">
           <span class="pill"></span>
           <button type="button" data-mode="month" aria-pressed="false">Mensal</button>
-          <button type="button" data-mode="year" class="on" aria-pressed="true">Anual <em>−44%</em></button>
+          <button type="button" data-mode="year" class="on" aria-pressed="true">Anual · −44%</button>
         </div>
-        <div class="plans">
-          <div class="tilt plan" data-reveal>
-            <h3>Grátis</h3>
-            <div class="price">0 €</div>
-            <p style="margin:0">Para começar</p>
-            <ul>
-              <li>1 carro na garagem</li>
-              <li>Registos de manutenção</li>
-              <li>Guias práticos completos</li>
-              <li>Preços de referência de reparações</li>
-              <li>Listas de luzes do painel e de códigos de erro</li>
-              <li class="off">Verificações com IA e conversa</li>
-              <li class="off">Alertas e notificações</li>
-              <li class="off">Com anúncios</li>
-            </ul>
-          </div>
-          <div class="tilt plan pro" data-reveal style="--d:.1s">
-            <span class="tag">10 dias grátis</span>
-            <h3>CarHelp Completo</h3>
-            <div class="price"><span id="proPrice">19,99 €</span> <small id="proPer">/ ano</small></div>
-            <p style="margin:0" id="proAlt">Equivale a 1,67 € por mês — poupas cerca de 44%.</p>
-            <ul>
-              <li>Verificações com IA ilimitadas: orçamentos, luzes, barulhos, códigos OBD</li>
-              <li>Conversa ilimitada com o assistente</li>
-              <li>Detalhes de cada luz e de cada código de erro</li>
-              <li>Vários carros e partilha em família</li>
-              <li>Alertas de revisão, IPO, seguro e IUC</li>
-              <li>Histórico, relatório PDF para a revenda e cópia de segurança</li>
-              <li>Sem anúncios</li>
-            </ul>
-          </div>
-        </div>
-        <p class="fine">Subscrição com renovação automática, gerida pela Google Play. Preços com IVA incluído. Consulta os <a href="termos.html" style="text-decoration:underline">termos</a>.</p>
       </div>
-    </section>
-
-    <!-- ═════════ Confiança ═════════ -->
-    <section class="sec" style="padding-top:20px">
-      <div class="wrap" style="text-align:center">
-        <span class="eyebrow" data-reveal>Do teu lado</span>
-        <h2 class="h2" data-reveal>Independente. <span class="grad">Transparente. Tua.</span></h2>
-        <div class="trust">
-          <div data-reveal><strong>Sem comissões de oficinas</strong><span style="color:var(--muted)">Não recebemos nada de ninguém. A análise é só a favor de quem conduz.</span></div>
-          <div data-reveal style="--d:.1s"><strong>Os teus dados, controlados por ti</strong><span style="color:var(--muted)">Exportas ou eliminas tudo quando quiseres, dentro da app.</span></div>
-          <div data-reveal style="--d:.2s"><strong>Informação orientativa</strong><span style="color:var(--muted)">Ajuda-te a decidir e a perguntar melhor; não substitui um mecânico.</span></div>
+      <div class="plans">
+        <div class="plan glass" data-fade>
+          <h3 class="h3">Grátis</h3>
+          <div class="price">0 €</div>
+          <p class="p2 grey">Para começar</p>
+          <ul>
+            <li>1 carro na garagem</li>
+            <li>Registos de manutenção</li>
+            <li>Guias práticos completos</li>
+            <li>Preços de referência de reparações</li>
+            <li>Listas de luzes do painel e de códigos de erro</li>
+            <li class="off">Verificações com IA e conversa</li>
+            <li class="off">Alertas e notificações</li>
+            <li class="off">Com anúncios</li>
+          </ul>
+        </div>
+        <div class="plan pro glass" data-fade>
+          <span class="badge">10 dias grátis</span>
+          <h3 class="h3" style="margin-top:24px">CarHelp Completo</h3>
+          <div class="price"><span id="price">19,99 €</span> <small id="per">/ ano</small></div>
+          <p class="p2 grey" id="perNote">Equivale a 1,67 € por mês.</p>
+          <ul>
+            <li>Verificações com IA ilimitadas: orçamentos, luzes, barulhos, códigos OBD</li>
+            <li>Conversa ilimitada com o assistente</li>
+            <li>Detalhes de cada luz e de cada código de erro</li>
+            <li>Vários carros e partilha em família</li>
+            <li>Alertas de revisão, IPO, seguro e IUC</li>
+            <li>Histórico, relatório PDF e cópia de segurança</li>
+            <li>Sem anúncios</li>
+          </ul>
+          <p class="p3 grey fine">Renovação automática, gerida pela Google Play. Preços com IVA. <a href="termos.html" data-page style="text-decoration:underline">Termos</a>.</p>
         </div>
       </div>
     </section>
 
-    <!-- ═════════ Perguntas ═════════ -->
-    <section class="sec" id="faq">
-      <div class="wrap" style="text-align:center">
-        <span class="eyebrow" data-reveal>Perguntas frequentes</span>
-        <h2 class="h2" data-reveal>Ficou alguma <span class="grad">dúvida?</span></h2>
-        <div class="faq">
-          <details data-reveal>
-            <summary>A CarHelp substitui o meu mecânico?</summary>
-            <p>Não. A CarHelp dá-te informação para perceberes o que te estão a propor e fazeres as perguntas certas. O diagnóstico e a reparação continuam a ser de um profissional.</p>
-          </details>
-          <details data-reveal>
-            <summary>Como sabe se o preço é justo?</summary>
-            <p>Compara cada linha do orçamento com preços de referência por tipo de reparação, de oficina e de mercado, e mostra-te o intervalo normal, a poupança possível e os sinais de alerta.</p>
-          </details>
-          <details data-reveal>
-            <summary>Posso experimentar antes de pagar?</summary>
-            <p>Sim. Os novos subscritores têm 10 dias grátis. Se cancelares antes do fim do período, não pagas nada. Existe também uma versão gratuita, com funcionalidades limitadas.</p>
-          </details>
-          <details data-reveal>
-            <summary>Como cancelo a subscrição?</summary>
-            <p>Na Google Play: Pagamentos e subscrições › Subscrições › CarHelp. Manténs o acesso até ao fim do período já pago.</p>
-          </details>
-          <details data-reveal>
-            <summary>O que acontece aos meus dados?</summary>
-            <p>Ficam na tua conta e podes exportá-los ou eliminá-los a qualquer momento. Lê a <a href="privacidade.html" style="text-decoration:underline">política de privacidade</a> e vê como <a href="eliminar-conta.html" style="text-decoration:underline">eliminar a conta</a>.</p>
-          </details>
-          <details data-reveal>
-            <summary>Funciona com qualquer carro?</summary>
-            <p>Sim. Podes guardar vários carros (no plano Completo), com marca, modelo, ano, combustível e quilómetros.</p>
-          </details>
-          <details data-reveal>
-            <summary>Para que sistemas está disponível?</summary>
-            <p>Android, através da Google Play.</p>
-          </details>
+    <!-- ═══ Perguntas ═══ -->
+    <section class="faq-sec" id="perguntas" data-phone="-1">
+      <div class="marquee" id="marquee" aria-hidden="true"><span>Perguntas?</span><span>Perguntas?</span><span>Perguntas?</span><span>Perguntas?</span></div>
+      <div class="faq">
+        <div class="side">
+          <h3 class="h3" data-split><span class="line"><span>Tudo o que</span></span><span class="line"><span>precisas de saber</span></span></h3>
+          <p class="p1 grey" data-fade>Não encontras a resposta? Escreve-nos.</p>
+          <a class="btn" href="mailto:support@carhelp.pt" data-fade><span class="bg"></span>Contactar o suporte</a>
+        </div>
+        <div class="qas">
+          <div class="qa"><button type="button" aria-expanded="false">A CarHelp é grátis?<span class="pm"></span></button><div class="ans"><p>Sim, há uma versão gratuita com um carro, registos de manutenção, guias e listas de luzes e códigos. O CarHelp Completo custa 2,99 € por mês ou 19,99 € por ano, com 10 dias grátis para novos subscritores.</p></div></div>
+          <div class="qa"><button type="button" aria-expanded="false">A CarHelp substitui o mecânico?<span class="pm"></span></button><div class="ans"><p>Não. Dá-te informação para perceberes o que te estão a propor e fazeres as perguntas certas. O diagnóstico e a reparação continuam a ser de um profissional.</p></div></div>
+          <div class="qa"><button type="button" aria-expanded="false">Como sabe se o preço é justo?<span class="pm"></span></button><div class="ans"><p>Compara cada linha do orçamento com preços de referência para o tipo de reparação, de oficina e de mercado, e mostra-te o intervalo normal, a poupança possível e os sinais de alerta.</p></div></div>
+          <div class="qa"><button type="button" aria-expanded="false">Como cancelo a subscrição?<span class="pm"></span></button><div class="ans"><p>Na Google Play: Pagamentos e subscrições › Subscrições › CarHelp. Manténs o acesso até ao fim do período já pago.</p></div></div>
+          <div class="qa"><button type="button" aria-expanded="false">O que acontece aos meus dados?<span class="pm"></span></button><div class="ans"><p>Ficam na tua conta e podes exportá-los ou eliminá-los quando quiseres. Lê a <a href="privacidade.html" data-page style="text-decoration:underline">política de privacidade</a> e como <a href="eliminar-conta.html" data-page style="text-decoration:underline">eliminar a conta</a>.</p></div></div>
         </div>
       </div>
     </section>
 
-    <!-- ═════════ CTA final ═════════ -->
-    <section class="final">
-      <div class="wrap">
-        <h2 data-reveal>Decide com confiança<br><span class="grad">em vez de pagar às cegas.</span></h2>
-        <p data-reveal style="margin-top:18px" data-play-note>A app chega em breve à Google Play.</p>
-        <a class="store is-soon magnetic" data-play-link href="#" data-reveal>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 1.6a1.3 1.3 0 0 0-.6 1.1v18.6c0 .5.2.9.6 1.1l10.4-10.4L3.6 1.6Zm11.8 9.3 2.9-2.9L5 1.4l10.4 9.5Zm0 2.2L5 22.6l13.3-6.6-2.9-2.9Zm4.9-3.5-3.3 1.9 3.3 1.9 1-.6a1 1 0 0 0 0-1.8l-1-.6Z"/></svg>
-          <span><small data-play-small>Brevemente</small><strong>Google Play</strong></span>
-        </a>
+    <!-- ═══ CTA final ═══ -->
+    <section class="final" id="download" data-phone="-1">
+      <div class="aurora a1" style="top:20%"></div>
+      <img class="icon" src="media/app-icon.png" alt="Ícone da CarHelp" data-fade style="position:relative">
+      <h2 class="h1" data-split style="position:relative"><span class="line"><span>Experimenta</span></span><span class="line"><span>a CarHelp hoje</span></span></h2>
+      <p class="p1 grey" data-fade data-play-note style="position:relative">A app chega em breve à Google Play.</p>
+      <div class="stores" data-fade style="position:relative">
+        <a class="store soon" data-play-link href="#"><svg><use href="#i-gplay"/></svg><span><small data-play-small>Brevemente</small><strong>Google Play</strong></span></a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <span class="sp">© 2026 CarHelp · Nogueira Dev</span>
-      <a href="privacidade.html">Privacidade</a>
-      <a href="termos.html">Termos</a>
-      <a href="eliminar-conta.html">Eliminar conta</a>
-      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>
+  <footer>
+    <div class="cols">
+      <div style="max-width:24em">
+        <p class="h5">Decide com confiança em vez de pagar às cegas.</p>
+      </div>
+      <nav class="p2">
+        <a href="#topo" data-scroll>Início</a><a href="#planos" data-scroll>Planos</a>
+        <a href="#orcamentos" data-scroll>Orçamentos</a><a href="#perguntas" data-scroll>Perguntas</a>
+        <a href="#ajuda" data-scroll>Funcionalidades</a><a href="mailto:support@carhelp.pt">Suporte</a>
+      </nav>
+    </div>
+    <div class="word" aria-hidden="true">CarHelp</div>
+    <div class="legal p3">
+      <span>© 2026 CarHelp · Nogueira Dev</span>
+      <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a> · <a href="eliminar-conta.html" data-page>Eliminar conta</a></span>
     </div>
   </footer>
 
-  <script src="vendor/three.min.js"></script>
-  <script src="logo3d.js"></script>
-  <script src="landing.js"></script>
+  <!-- Vídeo em ecrã inteiro -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vídeo da CarHelp">
+    <video id="lbVideo" controls playsinline preload="none"></video>
+    <button class="ibtn ink" type="button" id="lbClose" aria-label="Fechar vídeo"><span class="fill"></span><svg><use href="#i-close"/></svg></button>
+  </div>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
