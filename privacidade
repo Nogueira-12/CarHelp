@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de privacidade — CarHelp</title>
+  <meta name="description" content="Política de privacidade da app CarHelp, da Nogueira Dev.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div>
+      <a class="brand" href="index.html">CarHelp</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="eliminar-conta.html">Eliminar conta</a>
+    </div>
+  </header>
+  <main>
+    <h1>Política de privacidade</h1>
+    <p class="muted">App CarHelp (Android) · Última atualização: 15 de outubro de 2026</p>
+
+    <h2>1. Quem somos</h2>
+    <p>A app <strong>CarHelp</strong> é disponibilizada por <strong>Nogueira Dev</strong> (programador independente, Portugal),
+      responsável pelo tratamento dos dados descritos nesta política. Para qualquer questão sobre
+      privacidade: <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>.</p>
+
+    <h2>2. Que dados tratamos</h2>
+    <table>
+      <tr><th>Dados</th><th>Quando</th><th>Para quê</th></tr>
+      <tr><td><strong>Conta:</strong> nome, e-mail, identificador de utilizador e, se entrares com a Google, a foto de perfil da conta Google</td><td>Ao criar conta ou iniciar sessão</td><td>Autenticação e identificação na app</td></tr>
+      <tr><td><strong>Os teus carros:</strong> marca, modelo, ano, combustível, matrícula, quilómetros, fotografia do carro</td><td>Quando os adicionas</td><td>Funcionamento da garagem e alertas</td></tr>
+      <tr><td><strong>Manutenção:</strong> registos, valores, faturas (fotos/ficheiros) e lembretes</td><td>Quando os adicionas</td><td>Histórico, lembretes, relatório PDF</td></tr>
+      <tr><td><strong>Verificações:</strong> fotos de orçamentos e de luzes do painel, gravações de som do carro, códigos de erro, descrições de sintomas e os resultados</td><td>Quando pedes uma verificação</td><td>Gerar a análise e guardá-la no teu histórico</td></tr>
+      <tr><td><strong>Conversa com o assistente:</strong> mensagens e fotos enviadas</td><td>Quando usas o chat</td><td>Responder-te e manter a conversa</td></tr>
+      <tr><td><strong>Partilha de carros:</strong> pedidos, notificações e nome de apresentação visível para o outro membro</td><td>Quando partilhas um carro</td><td>Permitir que mais de uma conta veja o mesmo carro</td></tr>
+      <tr><td><strong>Suporte:</strong> mensagem, e-mail e versão da app</td><td>Quando nos contactas</td><td>Responder ao teu pedido</td></tr>
+      <tr><td><strong>Publicidade:</strong> identificador de publicidade e dados técnicos do dispositivo, tratados pelo Google AdMob</td><td>Se não tiveres subscrição ativa</td><td>Mostrar anúncios</td></tr>
+    </table>
+    <p>Não pedimos nem tratamos a tua localização, contactos, calendário nem dados de pagamento.</p>
+
+    <h2>3. Com quem os dados são tratados</h2>
+    <p>Usamos prestadores que tratam os dados <strong>em nosso nome</strong> e segundo as nossas instruções:</p>
+    <ul>
+      <li><strong>Google Firebase</strong> (autenticação, base de dados, armazenamento de ficheiros e funções): guarda a tua conta e os teus dados da app.</li>
+      <li><strong>Serviço de IA</strong>: quando pedes uma verificação ou usas o chat, o texto, as fotos e os sons relevantes, bem como alguns dados do carro (marca, modelo, ano, combustível, quilómetros), são enviados a um fornecedor de IA para gerar a resposta. Atualmente é o <strong>Google (Gemini API)</strong>; o fornecedor pode mudar, e esta política será atualizada.</li>
+      <li><strong>Google AdMob</strong>: publicidade na versão sem subscrição. O Google pode tratar o identificador de publicidade e dados técnicos do dispositivo, de acordo com a sua própria política de privacidade.</li>
+      <li><strong>Google Play</strong>: processa as subscrições e os pagamentos. Nunca vemos os teus dados de cartão; só recebemos a informação de que a subscrição está ativa.</li>
+      <li><strong>Resend</strong>: envio dos e-mails da app (códigos de verificação e respostas de suporte).</li>
+    </ul>
+    <p>Não vendemos os teus dados nem os usamos para te traçar perfis. Alguns prestadores podem tratar dados fora da União Europeia,
+      com as salvaguardas legais aplicáveis (por exemplo, cláusulas contratuais-tipo).</p>
+
+    <h2>4. Fundamentos legais</h2>
+    <ul>
+      <li><strong>Execução do contrato</strong>: conta, garagem, verificações, chat, subscrição.</li>
+      <li><strong>Consentimento</strong>: acesso ao microfone, às fotos e às notificações (que podes retirar nas definições do telemóvel) e, quando aplicável, anúncios personalizados.</li>
+      <li><strong>Interesse legítimo</strong>: segurança, prevenção de abuso e resposta a pedidos de suporte.</li>
+    </ul>
+
+    <h2>5. Quanto tempo guardamos</h2>
+    <ul>
+      <li>Os dados da conta e da garagem são guardados <strong>enquanto a conta existir</strong>.</li>
+      <li>Quando eliminas a conta, os dados são apagados (ver <a href="eliminar-conta.html">Eliminar conta</a>).</li>
+      <li>Os códigos de verificação por e-mail expiram em 10 minutos.</li>
+      <li>Mensagens de suporte são guardadas o tempo necessário para tratar o pedido e cumprir obrigações legais.</li>
+    </ul>
+
+    <h2>6. Os teus direitos</h2>
+    <p>Tens direito de acesso, retificação, apagamento, limitação, oposição e portabilidade dos teus dados.
+      Na app podes <strong>corrigir</strong> os teus dados, <strong>exportar</strong> uma cópia (Perfil › Dados e conta) e
+      <strong>eliminar a conta</strong>. Para qualquer outro pedido, escreve para
+      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>; respondemos no prazo máximo de um mês.</p>
+    <p>Tens ainda o direito de apresentar reclamação à autoridade de controlo:
+      <a href="https://www.cnpd.pt">Comissão Nacional de Proteção de Dados (CNPD)</a>.</p>
+
+    <h2>7. Segurança</h2>
+    <p>Os dados são transmitidos por ligações cifradas (HTTPS) e guardados em serviços da Google com controlo de acesso por conta.
+      Nenhum sistema é totalmente imune a falhas, mas tomamos medidas razoáveis para os proteger.</p>
+
+    <h2>8. Menores</h2>
+    <p>A CarHelp destina-se a maiores de 18 anos. Não recolhemos intencionalmente dados de menores.</p>
+
+    <h2>9. Alterações</h2>
+    <p>Podemos atualizar esta política. A data de atualização está no topo; se a alteração for relevante, avisamos na app.</p>
+
+    <footer>CarHelp · Nogueira Dev · <a href="mailto:support@carhelp.pt">support@carhelp.pt</a></footer>
+  </main>
+</body>
+</html>
