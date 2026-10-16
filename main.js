@@ -112,9 +112,10 @@
     lenis = new window.Lenis({ lerp: 0.085, smoothWheel: true });
     lenis.on('scroll', ST.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-    // até o carregamento acabar, um solavanco (ex.: preparar o 3D) não faz a animação saltar;
-    // depois fica sincronizado com o scroll suave (lagSmoothing 0)
-    gsap.ticker.lagSmoothing(100, 16);
+    // até o carregamento acabar, uma paragem longa (ex.: preparar o 3D, mais de meio segundo)
+    // não faz a animação saltar; frames lentos normais não a atrasam. Depois fica sincronizado
+    // com o scroll suave (lagSmoothing 0)
+    gsap.ticker.lagSmoothing(500, 33);
   }
   function scrollToEl(el) {
     if (el === 0) { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
@@ -448,7 +449,7 @@
   if (!reduce && !desktop.matches) {
     $$('[data-mphone] img').forEach(function (img, i) {
       gsap.to(img, { y: -10, duration: 3 + i * 0.3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-      gsap.fromTo(img, { rotation: -4 }, { rotation: 4, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true } });
+      gsap.fromTo(img, { rotation: -2 }, { rotation: 2, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
   }
 
@@ -492,7 +493,7 @@
     gsap.fromTo('#mediaCard', { rotationX: 28, scale: 0.84, yPercent: 6 },
       { rotationX: 0, scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#mediaCard', start: 'top bottom', end: 'top 20%', scrub: 1 } });
 
-    gsap.from('.who-card', { y: 120, autoAlpha: 0, rotation: 3, duration: 1.3, stagger: 0.08, ease: 'expo.out',
+    gsap.from('.who-card', { y: 100, autoAlpha: 0, duration: 1.2, stagger: 0.07, ease: 'expo.out', clearProps: 'transform',
       scrollTrigger: { trigger: '.who-grid', start: 'top 82%', once: true } });
 
     gsap.from('.tcard', { y: 100, autoAlpha: 0, duration: 1.2, stagger: 0.1, ease: 'expo.out',
@@ -504,6 +505,15 @@
 
     gsap.from('footer .word', { yPercent: 60, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: true } });
   }
+
+  /* ── Cartões "para quem é": brilho que segue o rato ── */
+  $$('.who-card').forEach(function (c) {
+    on(c, 'pointermove', function (e) {
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
 
   /* ── Perguntas: notificações da app a vaguear pela secção ── */
   (function () {
