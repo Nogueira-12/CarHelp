@@ -404,8 +404,9 @@ section { position: relative; }
 /* ─── Planos ─── */
 .plans-sec { padding: 160px var(--pad) 80px; }
 .plans-sec .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 60px; }
-.switch { position: relative; display: inline-flex; padding: 5px; border-radius: 22px; background: var(--ink); }
-.switch button { position: relative; z-index: 1; border: 0; background: transparent; color: var(--grey); height: 3em; padding: 0 1.6em; border-radius: 17px; cursor: pointer; transition: color .4s; }
+/* duas colunas iguais: a pill (metade da largura) cobre sempre um botão inteiro */
+.switch { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 5px; border-radius: 22px; background: var(--ink); }
+.switch button { position: relative; z-index: 1; border: 0; background: transparent; color: var(--grey); height: 3em; padding: 0 1.4em; border-radius: 17px; cursor: pointer; transition: color .4s; white-space: nowrap; text-align: center; display: flex; align-items: center; justify-content: center; }
 .switch button.on { color: var(--black); }
 .switch .pill { position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc(50% - 5px); border-radius: 17px; background: var(--dim); transition: transform .7s var(--ease); }
 .switch.year .pill { transform: translateX(100%); }
