@@ -1,70 +1,193 @@
 <!doctype html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Termos de utilização e subscrição — CarHelp</title>
   <meta name="description" content="Termos de utilização e condições da subscrição da app CarHelp.">
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0a0a0b">
+  <link rel="icon" type="image/png" href="media/app-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="legal.css">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
-<body>
-  <header class="site">
-    <div>
-      <a class="brand" href="index.html">CarHelp</a>
-      <a href="privacidade.html">Privacidade</a>
-      <a href="termos.html">Termos</a>
-      <a href="eliminar-conta.html">Eliminar conta</a>
+<body class="legal-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="curtain lg-curtain" id="curtain" aria-hidden="true"></div>
+
+  <!-- Barra de navegação (igual à página principal) -->
+  <div class="nav-dim" id="navDim" aria-hidden="true"></div>
+  <nav class="navbar" id="navbar" aria-label="Navegação">
+    <button class="nb-menu" id="nbMenu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navCard"><i></i><i></i></button>
+    <a class="nb-logo" href="index.html" data-page aria-label="CarHelp, voltar à página inicial"><img src="media/app-icon.png" alt=""></a>
+    <a class="nb-cta" href="index.html#download" data-page><span class="l">Experimentar grátis</span><span class="s">Experimentar</span></a>
+  </nav>
+  <div class="nav-card" id="navCard" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
+    <div class="nc-inner">
+      <div class="nc-top">
+        <div class="nc-links">
+          <a href="index.html#topo" data-page>Início</a>
+          <a href="index.html#orcamentos" data-page>Orçamentos</a>
+          <a href="index.html#garagem" data-page>Garagem</a>
+          <a href="index.html#planos" data-page>Planos</a>
+          <a href="index.html#perguntas" data-page>Perguntas</a>
+        </div>
+        <img class="nc-mark" src="media/app-icon.png" alt="">
+      </div>
+      <hr>
+      <div class="nc-small">
+        <div><a href="mailto:support@carhelp.pt">Suporte</a><a href="termos.html" data-page class="cur">Termos de utilização</a><a href="privacidade.html" data-page>Privacidade</a></div>
+        <div><a href="eliminar-conta.html" data-page>Eliminar conta</a><a href="index.html#ajuda" data-page>Funcionalidades</a></div>
+      </div>
+      <a class="nc-cta" href="index.html#download" data-page>Experimentar grátis</a>
     </div>
-  </header>
+  </div>
+  <button class="nc-close" id="ncClose" type="button" aria-label="Fechar menu"><svg><use href="#i-close"/></svg></button>
+
   <main>
-    <h1>Termos de utilização e subscrição</h1>
-    <p class="muted">App CarHelp (Android), de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+    <header class="lg-hero">
+      <div class="aurora a1"></div>
+      <div class="lg-top">
+        <a class="logo" href="index.html" data-page><img src="media/app-icon.png" alt="">CarHelp</a>
+        <a class="ibtn ink" href="index.html" data-page aria-label="Voltar à página inicial"><span class="fill"></span><svg><use href="#i-left"/></svg></a>
+      </div>
+      <div class="lg-head">
+        <span class="eyebrow" data-hero-in>Informação legal</span>
+        <h1 class="h1 lg-h1" data-split><span class="line"><span>Termos de</span></span><span class="line"><span>utilização</span></span></h1>
+        <p class="p2 grey lg-meta" data-hero-in>App CarHelp (Android), de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+        <nav class="lg-tabs" aria-label="Páginas legais" data-hero-in>
+          <a href="privacidade.html" data-page>Privacidade</a>
+          <a href="termos.html" data-page class="on" aria-current="page">Termos</a>
+          <a href="eliminar-conta.html" data-page>Eliminar conta</a>
+        </nav>
+      </div>
+    </header>
 
-    <h2>1. O serviço</h2>
-    <p>A CarHelp ajuda condutores a perceber orçamentos de oficina, luzes do painel, ruídos e códigos de erro, e a gerir a manutenção
-      do carro. Usando a app, aceitas estes termos.</p>
-
-    <h2>2. A informação é orientativa</h2>
-    <p>As respostas e estimativas, incluindo as geradas por inteligência artificial, são <strong>informação geral e orientativa</strong>.
-      Podem conter erros e não substituem a avaliação de um mecânico qualificado nem aconselhamento técnico, jurídico ou de segurança.
-      Se uma luz vermelha acender, ou notares cheiro a queimado, fumo ou travões/direção anómalos, pára em segurança e pede assistência.
-      Nunca uses o telemóvel enquanto conduzes.</p>
-
-    <h2>3. Conta</h2>
-    <p>És responsável pela confidencialidade das tuas credenciais e pela atividade da tua conta. A app destina-se a maiores de 18 anos.
-      Podes eliminar a conta quando quiseres (ver <a href="eliminar-conta.html">Eliminar conta</a>).</p>
-
-    <h2>4. Subscrição CarHelp Completo</h2>
-    <div class="card">
-      <ul>
-        <li><strong>Preços:</strong> 2,99 € por mês ou 19,99 € por ano (IVA incluído; pode variar consoante o país).</li>
-        <li><strong>Período gratuito:</strong> 10 dias para novos subscritores. Se não cancelares antes do fim, a subscrição inicia
-          e é cobrada ao preço do plano escolhido.</li>
-        <li><strong>Renovação:</strong> automática, ao fim de cada mês ou ano, até cancelares.</li>
-        <li><strong>Cancelamento:</strong> a qualquer momento em Play Store › Pagamentos e subscrições › Subscrições › CarHelp.
-          Manténs o acesso até ao fim do período já pago.</li>
-        <li><strong>Pagamento e reembolsos:</strong> são geridos pela Google Play, de acordo com as políticas de reembolso da Google.</li>
-      </ul>
+    <div class="lg-wrap">
+      <aside class="lg-toc" aria-label="Nesta página">
+        <span class="p3 grey">Nesta página</span>
+        <ol>
+          <li><a href="#s1"><span>01</span>O serviço</a></li>
+          <li><a href="#s2"><span>02</span>A informação é orientativa</a></li>
+          <li><a href="#s3"><span>03</span>Conta</a></li>
+          <li><a href="#s4"><span>04</span>Subscrição CarHelp Completo</a></li>
+          <li><a href="#s5"><span>05</span>Uso aceitável</a></li>
+          <li><a href="#s6"><span>06</span>Responsabilidade</a></li>
+          <li><a href="#s7"><span>07</span>Propriedade intelectual</a></li>
+          <li><a href="#s8"><span>08</span>Lei aplicável e contacto</a></li>
+        </ol>
+        <a class="lg-help glass" href="mailto:support@carhelp.pt"><svg><use href="#i-mail"/></svg><span><b>Dúvidas?</b><small>support@carhelp.pt</small></span></a>
+      </aside>
+      <article class="legal-body">
+      <section class="lg-sec" id="s1" data-fade>
+        <span class="lg-num">01</span>
+        <h2>O serviço</h2>
+        <p>A CarHelp ajuda condutores a perceber orçamentos de oficina, luzes do painel, ruídos e códigos de erro, e a gerir a manutenção
+          do carro. Usando a app, aceitas estes termos.</p>
+         
+      </section>
+      <section class="lg-sec" id="s2" data-fade>
+        <span class="lg-num">02</span>
+        <h2>A informação é orientativa</h2>
+        <p>As respostas e estimativas, incluindo as geradas por inteligência artificial, são <strong>informação geral e orientativa</strong>.
+          Podem conter erros e não substituem a avaliação de um mecânico qualificado nem aconselhamento técnico, jurídico ou de segurança.
+          Se uma luz vermelha acender, ou notares cheiro a queimado, fumo ou travões/direção anómalos, pára em segurança e pede assistência.
+          Nunca uses o telemóvel enquanto conduzes.</p>
+         
+      </section>
+      <section class="lg-sec" id="s3" data-fade>
+        <span class="lg-num">03</span>
+        <h2>Conta</h2>
+        <p>És responsável pela confidencialidade das tuas credenciais e pela atividade da tua conta. A app destina-se a maiores de 18 anos.
+          Podes eliminar a conta quando quiseres (ver <a href="eliminar-conta.html">Eliminar conta</a>).</p>
+         
+      </section>
+      <section class="lg-sec" id="s4" data-fade>
+        <span class="lg-num">04</span>
+        <h2>Subscrição CarHelp Completo</h2>
+        <div class="lg-card glass">
+          <ul>
+            <li><strong>Preços:</strong> 2,99 € por mês ou 19,99 € por ano (IVA incluído; pode variar consoante o país).</li>
+            <li><strong>Período gratuito:</strong> 10 dias para novos subscritores. Se não cancelares antes do fim, a subscrição inicia
+              e é cobrada ao preço do plano escolhido.</li>
+            <li><strong>Renovação:</strong> automática, ao fim de cada mês ou ano, até cancelares.</li>
+            <li><strong>Cancelamento:</strong> a qualquer momento em Play Store › Pagamentos e subscrições › Subscrições › CarHelp.
+              Manténs o acesso até ao fim do período já pago.</li>
+            <li><strong>Pagamento e reembolsos:</strong> são geridos pela Google Play, de acordo com as políticas de reembolso da Google.</li>
+          </ul>
+        </div>
+        <p>Sem subscrição, a app mantém funcionalidades gratuitas (por exemplo, um carro, guias práticos e as listas de luzes e de códigos)
+          e mostra publicidade. Podemos alterar preços e funcionalidades; as alterações de preço são comunicadas antes de se aplicarem à tua renovação.</p>
+         
+      </section>
+      <section class="lg-sec" id="s5" data-fade>
+        <span class="lg-num">05</span>
+        <h2>Uso aceitável</h2>
+        <p>Não uses a app para fins ilícitos, para tentar aceder a contas ou dados de terceiros, nem para sobrecarregar ou comprometer o serviço.</p>
+         
+      </section>
+      <section class="lg-sec" id="s6" data-fade>
+        <span class="lg-num">06</span>
+        <h2>Responsabilidade</h2>
+        <p>O serviço é prestado "como está". Na medida permitida por lei, não nos responsabilizamos por decisões tomadas com base
+          na informação da app nem por danos indiretos. Nada nestes termos limita direitos que a lei te reconheça como consumidor.</p>
+         
+      </section>
+      <section class="lg-sec" id="s7" data-fade>
+        <span class="lg-num">07</span>
+        <h2>Propriedade intelectual</h2>
+        <p>A app, a sua marca e conteúdos pertencem à Nogueira Dev. Os dados que introduzes continuam a ser teus.</p>
+         
+      </section>
+      <section class="lg-sec" id="s8" data-fade>
+        <span class="lg-num">08</span>
+        <h2>Lei aplicável e contacto</h2>
+        <p>Estes termos regem-se pela lei portuguesa. Para questões ou reclamações:
+          <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>. Como consumidor, podes também recorrer a uma entidade de
+          resolução alternativa de litígios de consumo.</p>
+      </section>
+        <div class="lg-end" data-fade>
+          <p class="p1">Tens alguma questão sobre esta página?</p>
+          <div class="lg-end-row">
+            <a class="btn" href="mailto:support@carhelp.pt"><span class="bg"></span>Contactar o suporte</a>
+            <button class="ibtn ink" type="button" id="toTop" aria-label="Voltar ao topo"><span class="fill"></span><svg><use href="#i-up"/></svg></button>
+          </div>
+        </div>
+      </article>
     </div>
-    <p>Sem subscrição, a app mantém funcionalidades gratuitas (por exemplo, um carro, guias práticos e as listas de luzes e de códigos)
-      e mostra publicidade. Podemos alterar preços e funcionalidades; as alterações de preço são comunicadas antes de se aplicarem à tua renovação.</p>
-
-    <h2>5. Uso aceitável</h2>
-    <p>Não uses a app para fins ilícitos, para tentar aceder a contas ou dados de terceiros, nem para sobrecarregar ou comprometer o serviço.</p>
-
-    <h2>6. Responsabilidade</h2>
-    <p>O serviço é prestado "como está". Na medida permitida por lei, não nos responsabilizamos por decisões tomadas com base
-      na informação da app nem por danos indiretos. Nada nestes termos limita direitos que a lei te reconheça como consumidor.</p>
-
-    <h2>7. Propriedade intelectual</h2>
-    <p>A app, a sua marca e conteúdos pertencem à Nogueira Dev. Os dados que introduzes continuam a ser teus.</p>
-
-    <h2>8. Lei aplicável e contacto</h2>
-    <p>Estes termos regem-se pela lei portuguesa. Para questões ou reclamações:
-      <a href="mailto:support@carhelp.pt">support@carhelp.pt</a>. Como consumidor, podes também recorrer a uma entidade de
-      resolução alternativa de litígios de consumo.</p>
-
-    <footer>CarHelp · Nogueira Dev · <a href="privacidade.html">Política de privacidade</a></footer>
   </main>
+
+  <footer>
+    <div class="cols">
+      <div style="max-width:24em">
+        <p class="h5">Decide com confiança em vez de pagar às cegas.</p>
+      </div>
+      <nav class="p2">
+        <a href="index.html#topo" data-page>Início</a><a href="index.html#planos" data-page>Planos</a>
+        <a href="index.html#orcamentos" data-page>Orçamentos</a><a href="index.html#perguntas" data-page>Perguntas</a>
+        <a href="index.html#ajuda" data-page>Funcionalidades</a><a href="mailto:support@carhelp.pt">Suporte</a>
+      </nav>
+    </div>
+    <div class="word" aria-hidden="true">CarHelp</div>
+    <div class="legal p3">
+      <span>© 2026 CarHelp · Nogueira Dev</span>
+      <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a> · <a href="eliminar-conta.html" data-page>Eliminar conta</a></span>
+    </div>
+  </footer>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="legal.js"></script>
 </body>
 </html>

@@ -433,14 +433,35 @@
       .to('.ld-count', { yPercent: -100, autoAlpha: 0, duration: 0.8, ease: 'expo.inOut' }, 4.75)
       .add(function () { intro(); }, 4.75)
       .to(loader, { autoAlpha: 0, duration: 0.9, ease: 'power2.inOut' }, 4.85)
-      .add(function () { loader.style.display = 'none'; gsap.ticker.lagSmoothing(0); if (lenis) lenis.start(); }, 5.75);
+      .add(function () { loader.style.display = 'none'; gsap.ticker.lagSmoothing(0); if (lenis) lenis.start(); goHash(); }, 5.75);
   }
+
+  /* ligações vindas de outras páginas (ex.: index.html#planos): vai à secção depois da entrada */
+  function goHash() {
+    var id = location.hash && location.hash.slice(1);
+    var el = id && document.getElementById(id);
+    if (!el || id === 'topo') return;
+    ST.refresh();
+    setTimeout(function () { scrollToEl(el); }, 60);
+  }
+  if (location.hash && 'scrollRestoration' in history) { history.scrollRestoration = 'manual'; window.scrollTo(0, 0); }
+
+  // o carregamento completo só aparece na primeira visita da sessão; ao voltar das outras
+  // páginas do site entra com a cortina (como as páginas legais)
+  var seen = false;
+  try { seen = sessionStorage.getItem('carhelp-loaded') === '1'; sessionStorage.setItem('carhelp-loaded', '1'); } catch (e) {}
 
   if (reduce || !loader) {
     gsap.ticker.lagSmoothing(0);
     if (loader) loader.style.display = 'none';
     if (navbar) navbar.classList.remove('hide');
     if (!reduce) intro();
+    goHash();
+  } else if (seen) {
+    loader.style.display = 'none';
+    gsap.ticker.lagSmoothing(0);
+    gsap.fromTo(curtain, { yPercent: 0 }, { yPercent: -100, duration: 0.9, ease: 'expo.inOut', onComplete: function () { gsap.set(curtain, { yPercent: 100 }); } });
+    gsap.delayedCall(0.35, function () { intro(); goHash(); });
   } else {
     runLoader();
   }

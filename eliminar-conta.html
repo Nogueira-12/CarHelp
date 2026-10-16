@@ -1,69 +1,175 @@
 <!doctype html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Eliminar conta e dados — CarHelp</title>
   <meta name="description" content="Como eliminar a tua conta CarHelp e os respetivos dados.">
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0a0a0b">
+  <link rel="icon" type="image/png" href="media/app-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="legal.css">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
-<body>
-  <header class="site">
-    <div>
-      <a class="brand" href="index.html">CarHelp</a>
-      <a href="privacidade.html">Privacidade</a>
-      <a href="termos.html">Termos</a>
-      <a href="eliminar-conta.html">Eliminar conta</a>
+<body class="legal-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="curtain lg-curtain" id="curtain" aria-hidden="true"></div>
+
+  <!-- Barra de navegação (igual à página principal) -->
+  <div class="nav-dim" id="navDim" aria-hidden="true"></div>
+  <nav class="navbar" id="navbar" aria-label="Navegação">
+    <button class="nb-menu" id="nbMenu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navCard"><i></i><i></i></button>
+    <a class="nb-logo" href="index.html" data-page aria-label="CarHelp, voltar à página inicial"><img src="media/app-icon.png" alt=""></a>
+    <a class="nb-cta" href="index.html#download" data-page><span class="l">Experimentar grátis</span><span class="s">Experimentar</span></a>
+  </nav>
+  <div class="nav-card" id="navCard" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
+    <div class="nc-inner">
+      <div class="nc-top">
+        <div class="nc-links">
+          <a href="index.html#topo" data-page>Início</a>
+          <a href="index.html#orcamentos" data-page>Orçamentos</a>
+          <a href="index.html#garagem" data-page>Garagem</a>
+          <a href="index.html#planos" data-page>Planos</a>
+          <a href="index.html#perguntas" data-page>Perguntas</a>
+        </div>
+        <img class="nc-mark" src="media/app-icon.png" alt="">
+      </div>
+      <hr>
+      <div class="nc-small">
+        <div><a href="mailto:support@carhelp.pt">Suporte</a><a href="termos.html" data-page>Termos de utilização</a><a href="privacidade.html" data-page>Privacidade</a></div>
+        <div><a href="eliminar-conta.html" data-page class="cur">Eliminar conta</a><a href="index.html#ajuda" data-page>Funcionalidades</a></div>
+      </div>
+      <a class="nc-cta" href="index.html#download" data-page>Experimentar grátis</a>
     </div>
-  </header>
+  </div>
+  <button class="nc-close" id="ncClose" type="button" aria-label="Fechar menu"><svg><use href="#i-close"/></svg></button>
+
   <main>
-    <h1>Eliminar a conta e os dados</h1>
-    <p class="muted">App CarHelp, de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+    <header class="lg-hero">
+      <div class="aurora a1"></div>
+      <div class="lg-top">
+        <a class="logo" href="index.html" data-page><img src="media/app-icon.png" alt="">CarHelp</a>
+        <a class="ibtn ink" href="index.html" data-page aria-label="Voltar à página inicial"><span class="fill"></span><svg><use href="#i-left"/></svg></a>
+      </div>
+      <div class="lg-head">
+        <span class="eyebrow" data-hero-in>Informação legal</span>
+        <h1 class="h1 lg-h1" data-split><span class="line"><span>Eliminar a conta</span></span><span class="line"><span>e os dados</span></span></h1>
+        <p class="p2 grey lg-meta" data-hero-in>App CarHelp, de Nogueira Dev · Última atualização: 15 de outubro de 2026</p>
+        <nav class="lg-tabs" aria-label="Páginas legais" data-hero-in>
+          <a href="privacidade.html" data-page>Privacidade</a>
+          <a href="termos.html" data-page>Termos</a>
+          <a href="eliminar-conta.html" data-page class="on" aria-current="page">Eliminar conta</a>
+        </nav>
+      </div>
+    </header>
 
-    <h2>Como eliminar a conta</h2>
-    <div class="card">
-      <p><strong>Opção 1 — Dentro da app (imediato)</strong></p>
-      <ol class="steps">
-        <li>Abre a app <strong>CarHelp</strong> e inicia sessão.</li>
-        <li>Vai ao separador <strong>Perfil</strong>.</li>
-        <li>Toca em <strong>Dados e conta</strong>.</li>
-        <li>Toca em <strong>Eliminar conta</strong> e confirma.</li>
-      </ol>
-      <p>A conta e os dados são eliminados de imediato e a sessão é terminada.</p>
+    <div class="lg-wrap">
+      <aside class="lg-toc" aria-label="Nesta página">
+        <span class="p3 grey">Nesta página</span>
+        <ol>
+          <li><a href="#s1"><span>01</span>Como eliminar a conta</a></li>
+          <li><a href="#s2"><span>02</span>O que é eliminado</a></li>
+          <li><a href="#s3"><span>03</span>O que é mantido, e durante quanto tempo</a></li>
+          <li><a href="#s4"><span>04</span>Antes de eliminar</a></li>
+        </ol>
+        <a class="lg-help glass" href="mailto:support@carhelp.pt"><svg><use href="#i-mail"/></svg><span><b>Dúvidas?</b><small>support@carhelp.pt</small></span></a>
+      </aside>
+      <article class="legal-body">
+      <section class="lg-sec" id="s1" data-fade>
+        <span class="lg-num">01</span>
+        <h2>Como eliminar a conta</h2>
+        <div class="lg-card glass">
+          <p><strong>Opção 1 — Dentro da app (imediato)</strong></p>
+          <ol class="steps">
+            <li>Abre a app <strong>CarHelp</strong> e inicia sessão.</li>
+            <li>Vai ao separador <strong>Perfil</strong>.</li>
+            <li>Toca em <strong>Dados e conta</strong>.</li>
+            <li>Toca em <strong>Eliminar conta</strong> e confirma.</li>
+          </ol>
+          <p>A conta e os dados são eliminados de imediato e a sessão é terminada.</p>
+        </div>
+        <div class="lg-card glass">
+          <p><strong>Opção 2 — Por e-mail (sem acesso à app)</strong></p>
+          <p>Envia um e-mail para <a href="mailto:support@carhelp.pt?subject=Eliminar%20conta%20CarHelp">support@carhelp.pt</a>,
+            <strong>a partir do endereço de e-mail da conta</strong>, com o assunto <em>"Eliminar conta CarHelp"</em>.
+            Eliminamos a conta e respondemos a confirmar, no prazo máximo de 30 dias.</p>
+        </div>
+         
+      </section>
+      <section class="lg-sec" id="s2" data-fade>
+        <span class="lg-num">02</span>
+        <h2>O que é eliminado</h2>
+        <ul>
+          <li>A tua <strong>conta</strong> (nome, e-mail, identificador e foto de perfil).</li>
+          <li>Os <strong>carros</strong> de que és o único proprietário, com o respetivo histórico de manutenção, faturas, lembretes e fotografias.</li>
+          <li>Todas as <strong>verificações</strong> (orçamentos, luzes do painel, sons, códigos OBD, sintomas) e as <strong>fotos e gravações</strong> associadas.</li>
+          <li>A <strong>conversa com o assistente</strong>, as notificações e os pedidos de partilha enviados e recebidos.</li>
+          <li>Os ficheiros guardados na tua pasta de armazenamento na nuvem.</li>
+        </ul>
+         
+      </section>
+      <section class="lg-sec" id="s3" data-fade>
+        <span class="lg-num">03</span>
+        <h2>O que é mantido, e durante quanto tempo</h2>
+        <ul>
+          <li><strong>Carros partilhados:</strong> se partilhaste um carro com outra conta, esse carro <em>não</em> é apagado; passa para o outro membro
+            e a tua conta é removida dele. Os dados desse carro continuam a ser do novo proprietário.</li>
+          <li><strong>Mensagens de suporte</strong> que nos enviaste: mantidas pelo tempo necessário para tratar o pedido e cumprir obrigações legais.</li>
+          <li><strong>Cópias técnicas e registos</strong> nos sistemas dos prestadores (por exemplo, registos de segurança): podem permanecer por um período limitado
+            até serem eliminados automaticamente.</li>
+          <li><strong>Compras:</strong> o registo da subscrição fica na tua conta Google Play, gerida pela Google, e não é afetado por esta eliminação.
+            Eliminar a conta CarHelp <strong>não cancela</strong> a subscrição: cancela-a em Play Store › Pagamentos e subscrições.</li>
+        </ul>
+         
+      </section>
+      <section class="lg-sec" id="s4" data-fade>
+        <span class="lg-num">04</span>
+        <h2>Antes de eliminar</h2>
+        <p>Se quiseres guardar uma cópia, exporta-a em <strong>Perfil › Dados e conta</strong> (cópia de segurança e relatório PDF).
+          A eliminação não pode ser desfeita.</p>
+      </section>
+        <div class="lg-end" data-fade>
+          <p class="p1">Tens alguma questão sobre esta página?</p>
+          <div class="lg-end-row">
+            <a class="btn" href="mailto:support@carhelp.pt"><span class="bg"></span>Contactar o suporte</a>
+            <button class="ibtn ink" type="button" id="toTop" aria-label="Voltar ao topo"><span class="fill"></span><svg><use href="#i-up"/></svg></button>
+          </div>
+        </div>
+      </article>
     </div>
-    <div class="card">
-      <p><strong>Opção 2 — Por e-mail (sem acesso à app)</strong></p>
-      <p>Envia um e-mail para <a href="mailto:support@carhelp.pt?subject=Eliminar%20conta%20CarHelp">support@carhelp.pt</a>,
-        <strong>a partir do endereço de e-mail da conta</strong>, com o assunto <em>"Eliminar conta CarHelp"</em>.
-        Eliminamos a conta e respondemos a confirmar, no prazo máximo de 30 dias.</p>
-    </div>
-
-    <h2>O que é eliminado</h2>
-    <ul>
-      <li>A tua <strong>conta</strong> (nome, e-mail, identificador e foto de perfil).</li>
-      <li>Os <strong>carros</strong> de que és o único proprietário, com o respetivo histórico de manutenção, faturas, lembretes e fotografias.</li>
-      <li>Todas as <strong>verificações</strong> (orçamentos, luzes do painel, sons, códigos OBD, sintomas) e as <strong>fotos e gravações</strong> associadas.</li>
-      <li>A <strong>conversa com o assistente</strong>, as notificações e os pedidos de partilha enviados e recebidos.</li>
-      <li>Os ficheiros guardados na tua pasta de armazenamento na nuvem.</li>
-    </ul>
-
-    <h2>O que é mantido, e durante quanto tempo</h2>
-    <ul>
-      <li><strong>Carros partilhados:</strong> se partilhaste um carro com outra conta, esse carro <em>não</em> é apagado; passa para o outro membro
-        e a tua conta é removida dele. Os dados desse carro continuam a ser do novo proprietário.</li>
-      <li><strong>Mensagens de suporte</strong> que nos enviaste: mantidas pelo tempo necessário para tratar o pedido e cumprir obrigações legais.</li>
-      <li><strong>Cópias técnicas e registos</strong> nos sistemas dos prestadores (por exemplo, registos de segurança): podem permanecer por um período limitado
-        até serem eliminados automaticamente.</li>
-      <li><strong>Compras:</strong> o registo da subscrição fica na tua conta Google Play, gerida pela Google, e não é afetado por esta eliminação.
-        Eliminar a conta CarHelp <strong>não cancela</strong> a subscrição: cancela-a em Play Store › Pagamentos e subscrições.</li>
-    </ul>
-
-    <h2>Antes de eliminar</h2>
-    <p>Se quiseres guardar uma cópia, exporta-a em <strong>Perfil › Dados e conta</strong> (cópia de segurança e relatório PDF).
-      A eliminação não pode ser desfeita.</p>
-
-    <footer>CarHelp · Nogueira Dev · <a href="mailto:support@carhelp.pt">support@carhelp.pt</a> ·
-      <a href="privacidade.html">Política de privacidade</a></footer>
   </main>
+
+  <footer>
+    <div class="cols">
+      <div style="max-width:24em">
+        <p class="h5">Decide com confiança em vez de pagar às cegas.</p>
+      </div>
+      <nav class="p2">
+        <a href="index.html#topo" data-page>Início</a><a href="index.html#planos" data-page>Planos</a>
+        <a href="index.html#orcamentos" data-page>Orçamentos</a><a href="index.html#perguntas" data-page>Perguntas</a>
+        <a href="index.html#ajuda" data-page>Funcionalidades</a><a href="mailto:support@carhelp.pt">Suporte</a>
+      </nav>
+    </div>
+    <div class="word" aria-hidden="true">CarHelp</div>
+    <div class="legal p3">
+      <span>© 2026 CarHelp · Nogueira Dev</span>
+      <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a> · <a href="eliminar-conta.html" data-page>Eliminar conta</a></span>
+    </div>
+  </footer>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="legal.js"></script>
 </body>
 </html>
