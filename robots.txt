@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /i18n/
 
 Sitemap: https://carhelp.pt/sitemap.xml
