@@ -10,6 +10,7 @@ html, body.legal-page { overflow-x: clip; }
 .lg-top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
 .lg-top .logo { display: inline-flex; align-items: center; gap: 12px; font-size: 1.5em; letter-spacing: -.02em; }
 .lg-top .logo img { width: 42px; height: 42px; border-radius: 12px; }
+.lg-top-r { display: flex; align-items: center; gap: 10px; }
 .lg-head { position: relative; z-index: 2; margin-top: 14vh; }
 .lg-h1 { margin-top: 18px; font-size: min(8.4em, 8vw); }
 .lg-meta { margin-top: 26px; }

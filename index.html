@@ -7,12 +7,17 @@
   <meta name="description" content="Fotografa o orçamento da oficina e descobre em 1 minuto se o preço é justo. Percebe luzes do painel, barulhos e códigos de erro, e mantém o carro em dia.">
   <meta name="theme-color" content="#0a0a0b">
   <link rel="canonical" href="https://carhelp.pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/">
+  <link rel="alternate" hreflang="en" href="https://carhelp.pt/en/">
+  <link rel="alternate" hreflang="x-default" href="https://carhelp.pt/">
+  <script src="lang.js"></script>
   <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" href="favicon-48x48.png" sizes="48x48">
   <link rel="icon" type="image/png" href="icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_PT">
+  <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:title" content="CarHelp — Este orçamento é justo?">
   <meta property="og:description" content="Descobre em 1 minuto se o orçamento da oficina é justo. Decide com confiança em vez de pagar às cegas.">
   <meta property="og:image" content="https://carhelp.pt/media/poster-desktop.jpg">
@@ -21,7 +26,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Courier+Prime:wght@400;700&family=Outfit:wght@300;400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"CarHelp","alternateName":["CarHelp app","carhelp.pt"],"url":"https://carhelp.pt/","inLanguage":"pt-PT"}
   </script>
@@ -30,11 +35,8 @@
   </script>
   <link rel="stylesheet" href="site.css">
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
-  <!--
-    QUANDO A APP ESTIVER PUBLICADA, preenche só esta linha:
-      window.PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.tomas.car_help";
-  -->
-  <script>window.PLAY_STORE_URL = "";</script>
+  <!-- O endereço da Google Play está em site-config.js (serve as duas línguas). -->
+  <script src="site-config.js"></script>
 </head>
 <body>
 
@@ -47,7 +49,8 @@
       <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></symbol>
       <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
       <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9h16M4 15h16"/></symbol>
-      <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l2.5-6 4 12 2.5-6H22"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+      <symbol id="i-pulse"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l2.5-6 4 12 2.5-6H22"/></symbol>
       <symbol id="i-gplay" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 1.6a1.3 1.3 0 0 0-.6 1.1v18.6c0 .5.2.9.6 1.1l10.4-10.4L3.6 1.6Zm11.8 9.3 2.9-2.9L5 1.4l10.4 9.5Zm0 2.2L5 22.6l13.3-6.6-2.9-2.9Zm4.9-3.5-3.3 1.9 3.3 1.9 1-.6a1 1 0 0 0 0-1.8l-1-.6Z"/></symbol>
       <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
       <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
@@ -112,6 +115,7 @@
         <div><a href="mailto:support@carhelp.pt">Suporte</a><a href="termos.html" data-page>Termos de utilização</a><a href="privacidade.html" data-page>Privacidade</a></div>
         <div><a href="eliminar-conta.html" data-page>Eliminar conta</a><a href="#ajuda" data-scroll>Funcionalidades</a></div>
       </div>
+      <div class="nc-lang"><span>Idioma</span><div class="nc-seg"><span class="on" lang="pt-PT" aria-current="true">PT</span><a href="en/" hreflang="en" lang="en" data-lang="en" data-page aria-label="English">EN</a></div></div>
       <a class="nc-cta" href="#download" data-scroll>Experimentar grátis</a>
     </div>
   </div>
@@ -131,7 +135,10 @@
           <span class="line"><span>orçamento</span></span>
           <span class="line"><span>é <span class="star"><svg><use href="#i-pulse"/></svg></span>justo?</span></span>
         </h1>
-        <a class="logo" href="#topo" data-scroll data-hero-in><img src="media/app-icon.png" alt="">CarHelp</a>
+        <div class="top-r" data-hero-in>
+          <a class="logo" href="#topo" data-scroll><img src="media/app-icon.png" alt="">CarHelp</a>
+          <a class="lang-chip" href="en/" hreflang="en" lang="en" data-lang="en" data-page aria-label="English version"><svg><use href="#i-globe"/></svg>EN</a>
+        </div>
       </div>
       <div class="bottom">
         <div class="col">
@@ -178,6 +185,68 @@
         <div class="callout glass c-a" data-pop><i><svg><use href="#i-bell"/></svg></i><b>Lembretes a tempo</b><span>Revisão, IPO, seguro e IUC, por data ou quilómetros.</span></div>
         <div class="callout glass c-b" data-pop><i><svg><use href="#i-chart"/></svg></i><b>Gastos do ano</b><span>Quanto gastaste e o custo por quilómetro.</span></div>
       </div>
+    </section>
+
+    <!-- ═══ Com e sem CarHelp: o mesmo orçamento em papel e analisado ═══ -->
+    <section class="vs-sec" id="comparar" data-phone="-1">
+      <div class="aurora a2"></div>
+      <div class="vs-head">
+        <div>
+          <span class="eyebrow" data-fade>Com e sem CarHelp</span>
+          <h2 class="h2" data-split><span class="line"><span>O mesmo orçamento,</span></span><span class="line"><span>outra conversa</span></span></h2>
+        </div>
+        <p class="p1 grey" data-fade>Arrasta a linha. De um lado, o papel que te dão na oficina. Do outro, o que a CarHelp encontra nele.</p>
+      </div>
+      <div class="vs-bar" data-fade><span class="vs-lab vs-lab-l"><i></i>Sem CarHelp</span><span class="vs-lab vs-lab-r">Com CarHelp<i></i></span></div>
+      <div class="vs-wrap">
+        <div class="vs-stage" id="vsStage">
+          <div class="vs-layer vs-paper">
+            <div class="vs-doc">
+              <div class="vs-hd">
+                <div class="vs-co"><b>AUTO EXEMPLO, LDA.</b><span>Mecânica geral · Travões · Pneus</span><span>Rua da Oficina, 12 · Porto</span></div>
+                <div class="vs-no"><b>ORÇAMENTO</b><span>N.º 0347 · 14/10/2026</span></div>
+              </div>
+              <div class="vs-car">Viatura: Renault Clio 1.5 dCi (2016) · 118&nbsp;000&nbsp;km</div>
+              <div class="vs-th"><span>Descrição</span><span>Valor (€)</span></div>
+              <div class="vs-r"><div><b>Pastilhas de travão (frente)</b><small>Ref. TRW GDB1550 · 1 jogo</small></div><span class="vs-v">68,00</span></div>
+              <div class="vs-r"><div><b>Discos de travão (frente)</b><small>Ref. 09.A727.11 · 2 un.</small></div><span class="vs-v">142,00</span></div>
+              <div class="vs-r"><div><b>Mão de obra</b><small>3,5 h × 55,00</small></div><span class="vs-v">192,50</span></div>
+              <div class="vs-r"><div><b>Líquido de travões DOT 4</b><small>1 L · substituição</small></div><span class="vs-v">24,00</span></div>
+              <div class="vs-r"><div><b>Diversos</b><small>Material de oficina</small></div><span class="vs-v">35,00</span></div>
+              <div class="vs-r"><div><b>Taxa ambiental</b><small>Tratamento de resíduos</small></div><span class="vs-v">6,50</span></div>
+              <div class="vs-ft">
+                <div class="vs-note"><span class="vs-scrawl">Urgente! Fazer já.</span><span class="vs-stamp">Válido 15 dias</span></div>
+                <div class="vs-tot"><span>Subtotal <b>468,00</b></span><span>IVA 23% <b>107,64</b></span><span class="vs-total">TOTAL <b>575,64 €</b></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="vs-layer vs-app">
+            <div class="vs-doc">
+              <div class="vs-hd">
+                <div class="vs-ah"><img src="media/app-icon.png" alt=""><div><b>Análise do orçamento</b><span>Renault Clio 1.5 dCi · 2016 · lido em 42 s</span></div></div>
+                <div class="vs-verdict vs-pop" data-reveal><span class="vs-pill">Caro</span><span>Pedem 575,64 €</span></div>
+              </div>
+              <div class="vs-car vs-chips"><span>6 linhas analisadas</span><span class="r">1 cobrança a mais</span><span class="a">2 perguntas a fazer</span></div>
+              <div class="vs-th"><span>O que te cobram</span><span>Veredito</span></div>
+              <div class="vs-r ok" data-reveal><div><b>Pastilhas de travão</b><small>Preço normal: 55–75 €</small></div><span class="vs-c">OK</span></div>
+              <div class="vs-r ok" data-reveal><div><b>Discos de travão</b><small>Dentro do normal: 120–150 €</small></div><span class="vs-c">OK</span></div>
+              <div class="vs-r bad" data-reveal><div><b>Mão de obra</b><small>O normal são 1,5 a 2 h, não 3,5 h</small></div><span class="vs-c">+82,50 €</span></div>
+              <div class="vs-r warn" data-reveal><div><b>Líquido de travões</b><small>Muda-se a cada 2 anos: pergunta quando foi mudado</small></div><span class="vs-c">?</span></div>
+              <div class="vs-r warn" data-reveal><div><b>Diversos</b><small>Sem explicação: pede o detalhe</small></div><span class="vs-c">?</span></div>
+              <div class="vs-r ok" data-reveal><div><b>Taxa ambiental</b><small>Valor habitual</small></div><span class="vs-c">OK</span></div>
+              <div class="vs-ft">
+                <div class="vs-note"><span class="vs-calm vs-pop" data-reveal><i></i>Pode esperar alguns dias: dá tempo para pedir outro orçamento</span></div>
+                <div class="vs-fair vs-pop" data-reveal><span>Preço justo</span><b>430–480 €</b><small>Podes poupar até 145 €</small></div>
+              </div>
+            </div>
+          </div>
+          <div class="vs-handle" id="vsHandle" role="slider" tabindex="0" aria-orientation="horizontal" aria-label="Comparar o orçamento sem e com CarHelp" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50% com CarHelp">
+            <span class="vs-line"></span>
+            <span class="vs-knob"><svg><use href="#i-left"/></svg><svg><use href="#i-right"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <p class="p3 grey vs-fine" data-fade>Exemplo ilustrativo. A análise real depende do carro, da oficina e da zona.</p>
     </section>
 
     <!-- ═══ Percebe o carro ═══ -->
@@ -393,6 +462,7 @@
     <div class="word" aria-hidden="true">CarHelp</div>
     <div class="legal p3">
       <span>© 2026 CarHelp · Nogueira Dev</span>
+      <span class="ft-lang"><span lang="pt-PT" aria-current="true">Português</span> · <a href="en/" hreflang="en" lang="en" data-lang="en" data-page>English</a></span>
       <span><a href="privacidade.html" data-page>Privacidade</a> · <a href="termos.html" data-page>Termos</a> · <a href="eliminar-conta.html" data-page>Eliminar conta</a></span>
     </div>
   </footer>

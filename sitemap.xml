@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://carhelp.pt/</loc><lastmod>2026-10-17</lastmod><priority>1.0</priority></url>
-  <url><loc>https://carhelp.pt/privacidade.html</loc><lastmod>2026-10-15</lastmod><priority>0.3</priority></url>
-  <url><loc>https://carhelp.pt/termos.html</loc><lastmod>2026-10-15</lastmod><priority>0.3</priority></url>
-  <url><loc>https://carhelp.pt/eliminar-conta.html</loc><lastmod>2026-10-15</lastmod><priority>0.3</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://carhelp.pt/</loc><lastmod>2026-10-19</lastmod><priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/en/</loc><lastmod>2026-10-19</lastmod><priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/privacidade.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/privacidade.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/privacidade.html"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/en/privacy.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/privacidade.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/privacidade.html"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/termos.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/termos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/termos.html"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/en/terms.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/termos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/termos.html"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/eliminar-conta.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/eliminar-conta.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/delete-account.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/eliminar-conta.html"/>
+  </url>
+  <url>
+    <loc>https://carhelp.pt/en/delete-account.html</loc><lastmod>2026-10-19</lastmod><priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://carhelp.pt/eliminar-conta.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carhelp.pt/en/delete-account.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carhelp.pt/eliminar-conta.html"/>
+  </url>
 </urlset>

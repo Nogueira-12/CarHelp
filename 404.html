@@ -89,6 +89,23 @@
     'use strict';
     var gsap = window.gsap;
 
+    /* ── em inglês quando o endereço é da versão inglesa (/en/…) ou quem já a escolheu ── */
+    var pref = null;
+    try { pref = localStorage.getItem('carhelp-lang'); } catch (e) {}
+    if (/\/en(\/|$)/.test(location.pathname) || pref === 'en') {
+      document.documentElement.lang = 'en';
+      document.title = 'Page not found — CarHelp';
+      var L = document.querySelectorAll('.e-title .line > span');
+      L[0].textContent = 'Something went'; L[1].textContent = 'wrong...';
+      document.querySelector('.e-bottom p').textContent = 'The page you’re looking for doesn’t exist or has been removed. Try going back to the home page.';
+      var home = document.querySelector('.e-bottom .btn');
+      home.lastChild.textContent = 'Go to the home page';
+      home.setAttribute('href', 'en/index.html');
+      document.querySelector('.e-brand').setAttribute('href', 'en/index.html');
+      document.querySelector('.e-center').setAttribute('aria-label', 'Error 404');
+      document.querySelector('.e-bottom .ibtn').setAttribute('aria-label', 'Go back');
+    }
+
     /* ── "404" com dígitos que rolam até ao lugar ── */
     var cols = Array.prototype.slice.call(document.querySelectorAll('#eNum .e-col'));
     var target = [4, 0, 4];

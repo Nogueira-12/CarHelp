@@ -66,7 +66,8 @@
     .to(curtain, { yPercent: -100, duration: 0.9, ease: 'expo.inOut' }, 0)
     .to(lines, { yPercent: 0, duration: 1.2, stagger: 0.09, ease: 'expo.out' }, 0.45)
     .to('[data-hero-in]', { autoAlpha: 1, y: 0, duration: 1, stagger: 0.08, ease: 'expo.out' }, 0.6)
-    .add(function () { if (navbar) navbar.classList.remove('hide'); }, 0.9);
+    .add(function () { if (navbar) navbar.classList.remove('hide'); }, 0.9)
+    .add(function () { if (window.CarHelpLang) window.CarHelpLang.hint(); }, 1.6);
   if (location.hash) setTimeout(function () { scrollToEl($(location.hash)); }, 900);
 
   /* blocos a aparecer ao entrar no ecrã */
@@ -86,6 +87,8 @@
     gsap.fromTo(curtain, { yPercent: 100 }, { yPercent: 0, duration: 0.8, ease: 'expo.inOut', onComplete: function () { window.location.href = href; } });
   }
   on(window, 'pageshow', function (e) { if (e.persisted) gsap.set(curtain, { yPercent: -100 }); });
+  // o aviso de idioma também sai com a cortina
+  if (window.CarHelpLang) window.CarHelpLang.go = function (href) { if (menuOpen) closeMenu(function () { leave(href); }); else leave(href); };
 
   /* barra: encolhe ao descer, abre ao subir ou ao passar o rato */
   var mini = false, menuOpen = false, lastY = 0, hovering = false;
@@ -104,7 +107,7 @@
   on(navbar, 'click', function (e) { if (mini) { e.preventDefault(); setMini(false); } });
 
   /* menu: a barra transforma-se num cartão */
-  var cardItems = $$('.nc-links a, .nc-mark, hr, .nc-small, .nc-cta', navCard);
+  var cardItems = $$('.nc-links a, .nc-mark, hr, .nc-small, .nc-lang, .nc-cta', navCard);
   function openMenu() {
     if (menuOpen) return;
     menuOpen = true;

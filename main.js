@@ -12,7 +12,29 @@
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function on(el, ev, fn, o) { if (el) el.addEventListener(ev, fn, o || false); }
-  function fmt(n) { return n.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  /* ── Língua da página (a versão inglesa vive em /en/ e usa este mesmo ficheiro) ── */
+  var EN = /^en/i.test(document.documentElement.getAttribute('lang') || '');
+  var T = EN ? {
+    getOn: 'Get it on', soon: 'Coming soon',
+    live: 'Available for Android, with a 10-day free trial.', notYet: 'The app is coming soon to Google Play.',
+    year: '/ year', month: '/ month', perYear: 'That’s €1.67 a month.', perMonth: 'No commitment. Cancel anytime.',
+    vsNow: '% with CarHelp'
+  } : {
+    getOn: 'Obter na', soon: 'Brevemente',
+    live: 'Disponível para Android, com 10 dias grátis.', notYet: 'A app chega em breve à Google Play.',
+    year: '/ ano', month: '/ mês', perYear: 'Equivale a 1,67 € por mês.', perMonth: 'Sem compromisso. Cancelas quando quiseres.',
+    vsNow: '% com CarHelp'
+  };
+  function money(n) {
+    var s = n.toLocaleString(EN ? 'en-GB' : 'pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return EN ? '€' + s : s + ' €';
+  }
+  /* pasta do site (media/ fica sempre ao lado deste ficheiro, também quando a página está em /en/) */
+  var ROOT = (function () {
+    var s = document.currentScript && document.currentScript.src;
+    return s ? s.slice(0, s.lastIndexOf('/') + 1) : '';
+  })();
 
   var loader = $('#loader');
   var rig = $('#rig');
@@ -25,8 +47,8 @@
       if (live) { a.href = url; a.classList.remove('soon'); a.target = '_blank'; a.rel = 'noopener'; }
       else { a.setAttribute('aria-disabled', 'true'); a.setAttribute('tabindex', '-1'); }
     });
-    $$('[data-play-small]').forEach(function (e) { e.textContent = live ? 'Obter na' : 'Brevemente'; });
-    $$('[data-play-note]').forEach(function (e) { e.textContent = live ? 'Disponível para Android, com 10 dias grátis.' : 'A app chega em breve à Google Play.'; });
+    $$('[data-play-small]').forEach(function (e) { e.textContent = live ? T.getOn : T.soon; });
+    $$('[data-play-note]').forEach(function (e) { e.textContent = live ? T.live : T.notYet; });
   })();
 
   /* ── Botões: o círculo enche a partir do ponto onde o cursor entra ── */
@@ -61,11 +83,11 @@
         var year = b.getAttribute('data-mode') === 'year';
         sw.classList.toggle('year', year);
         $$('button', sw).forEach(function (x) { var m = x === b; x.classList.toggle('on', m); x.setAttribute('aria-pressed', m ? 'true' : 'false'); });
-        per.textContent = year ? '/ ano' : '/ mês';
-        note.textContent = year ? 'Equivale a 1,67 € por mês.' : 'Sem compromisso. Cancelas quando quiseres.';
+        per.textContent = year ? T.year : T.month;
+        note.textContent = year ? T.perYear : T.perMonth;
         var target = year ? 19.99 : 2.99;
-        if (gsap && !reduce) gsap.to(val, { v: target, duration: 0.8, ease: 'expo.out', onUpdate: function () { price.textContent = fmt(val.v) + ' €'; } });
-        else { val.v = target; price.textContent = fmt(target) + ' €'; }
+        if (gsap && !reduce) gsap.to(val, { v: target, duration: 0.8, ease: 'expo.out', onUpdate: function () { price.textContent = money(val.v); } });
+        else { val.v = target; price.textContent = money(target); }
       });
     });
   })();
@@ -77,7 +99,7 @@
     if (!lb || !v) return;
     function open() {
       var portrait = window.matchMedia('(max-width: 760px), (orientation: portrait)').matches;
-      v.src = portrait ? 'media/carhelp-mobile.mp4' : 'media/carhelp-desktop.mp4';
+      v.src = ROOT + (portrait ? 'media/carhelp-mobile.mp4' : 'media/carhelp-desktop.mp4');
       v.muted = false; v.currentTime = 0;
       lb.classList.add('on');
       if (lenis) lenis.stop();
@@ -95,6 +117,104 @@
     on(close, 'click', shut);
     on(lb, 'click', function (e) { if (e.target === lb) shut(); });
     on(document, 'keydown', function (e) { if (e.key === 'Escape' && lb.classList.contains('on')) shut(); });
+  })();
+
+  /* ── Com e sem CarHelp: a linha revela, por cima do papel da oficina, o que a app encontra nele ──
+     --pos é a posição da linha (0–100 %): à esquerda fica o papel, à direita a análise. Cada alerta
+     da análise "acende" quando a linha passa por ele, nos dois sentidos. */
+  (function () {
+    var stage = $('#vsStage'), handle = $('#vsHandle');
+    if (!stage || !handle) return;
+    var labL = $('.vs-lab-l'), labR = $('.vs-lab-r');
+    var marks = $$('[data-reveal]', stage);
+    var animated = !!gsap && !reduce;
+    var st = { p: animated ? 100 : 50 }, user = false, demo = null;
+
+    // posição de cada alerta em % da largura (sem as transformações da entrada)
+    function xIn(el) { var x = 0; while (el && el !== stage) { x += el.offsetLeft; el = el.offsetParent; } return x; }
+    function measure() {
+      var w = stage.offsetWidth || 1;
+      marks.forEach(function (el) {
+        var t = el.classList.contains('vs-r') ? ($('.vs-c', el) || el) : el;
+        el._at = (xIn(t) + t.offsetWidth / 2) / w * 100;
+      });
+      paint();
+    }
+    function paint() {
+      var p = Math.max(0, Math.min(100, st.p));
+      stage.style.setProperty('--pos', p.toFixed(2) + '%');
+      handle.setAttribute('aria-valuenow', String(Math.round(p)));
+      handle.setAttribute('aria-valuetext', Math.round(100 - p) + T.vsNow);
+      marks.forEach(function (el) { el.classList.toggle('in', p < el._at); });
+      if (labL) labL.style.opacity = p < 7 ? 0.3 : 1;
+      if (labR) labR.style.opacity = p > 93 ? 0.3 : 1;
+    }
+    var follow = animated
+      ? gsap.quickTo(st, 'p', { duration: 0.55, ease: 'power3.out', onUpdate: paint })
+      : function (v) { st.p = v; paint(); };
+    function clamp(v) { return Math.max(0, Math.min(100, v)); }
+    function take() { user = true; stage.classList.remove('hint'); if (demo) { demo.kill(); demo = null; } }
+    function pct(e) { var r = stage.getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width * 100); }
+
+    // rato: arrasta logo; dedo: só quando o gesto é claramente para o lado (senão é scroll)
+    var down = null;
+    function grab(e) { take(); stage.classList.add('drag'); try { stage.setPointerCapture(e.pointerId); } catch (err) {} }
+    on(stage, 'pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      var knob = !!(e.target.closest && e.target.closest('.vs-knob'));
+      down = { id: e.pointerId, x: e.clientX, y: e.clientY, live: e.pointerType === 'mouse' || knob };
+      if (down.live) { grab(e); follow(pct(e)); if (e.pointerType === 'mouse') e.preventDefault(); }
+    });
+    on(stage, 'pointermove', function (e) {
+      if (!down || e.pointerId !== down.id) return;
+      if (!down.live) {
+        var dx = Math.abs(e.clientX - down.x), dy = Math.abs(e.clientY - down.y);
+        if (dx < 6 || dx < dy) return;
+        down.live = true; grab(e);
+      }
+      follow(pct(e));
+    });
+    function up(e) {
+      if (!down || e.pointerId !== down.id) return;
+      // um toque sem arrastar leva a linha até ao dedo
+      if (!down.live && e.type === 'pointerup' && Math.abs(e.clientX - down.x) < 6 && Math.abs(e.clientY - down.y) < 6) { take(); follow(pct(e)); }
+      down = null; stage.classList.remove('drag');
+    }
+    on(stage, 'pointerup', up); on(stage, 'pointercancel', up);
+    on(stage, 'lostpointercapture', function () { if (down && down.live) { down = null; stage.classList.remove('drag'); } });
+
+    on(handle, 'keydown', function (e) {
+      var step = e.shiftKey ? 20 : 5, p = st.p, k = e.key;
+      if (k === 'ArrowLeft' || k === 'ArrowDown') p -= step;
+      else if (k === 'ArrowRight' || k === 'ArrowUp') p += step;
+      else if (k === 'PageDown') p -= 20;
+      else if (k === 'PageUp') p += 20;
+      else if (k === 'Home') p = 0;
+      else if (k === 'End') p = 100;
+      else return;
+      e.preventDefault(); take(); follow(clamp(p));
+    });
+
+    // ao aparecer: a análise passa por cima do papel quase todo e volta ao meio
+    function runDemo() {
+      if (user) return;
+      if (!animated) { st.p = 50; paint(); return; }
+      demo = gsap.timeline({ onComplete: function () { demo = null; if (!user) stage.classList.add('hint'); } })
+        .to(st, { p: 14, duration: 1.8, ease: 'power3.inOut', onUpdate: paint })
+        .to(st, { p: 50, duration: 1.3, ease: 'expo.out', onUpdate: paint }, '+=0.4');
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        io.disconnect(); setTimeout(runDemo, 250);
+      }, { rootMargin: '0px 0px -38% 0px' });
+      io.observe(stage);
+    } else runDemo();
+
+    measure();
+    on(window, 'resize', measure);
+    on(window, 'load', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   })();
 
   /* ── Sem GSAP: página estática, menu simples ── */
@@ -141,7 +261,7 @@
   on(navbar, 'click', function (e) { if (mini) { e.preventDefault(); setMini(false); } });
 
   /* ── Menu: a barra transforma-se num cartão ── */
-  var cardItems = navCard ? $$('.nc-links a, .nc-mark, hr, .nc-small, .nc-cta', navCard) : [];
+  var cardItems = navCard ? $$('.nc-links a, .nc-mark, hr, .nc-small, .nc-lang, .nc-cta', navCard) : [];
   function currentSection() {
     var best = null, vh = window.innerHeight;
     $$('.nc-links a', navCard).forEach(function (a) {
@@ -222,6 +342,11 @@
     });
   });
   on(window, 'pageshow', function () { gsap.set(curtain, { yPercent: 100 }); });
+  // o aviso de idioma também sai com a cortina
+  if (window.CarHelpLang) window.CarHelpLang.go = function (href) {
+    var go = function () { gsap.fromTo(curtain, { yPercent: 100 }, { yPercent: 0, duration: 0.8, ease: 'expo.inOut', onComplete: function () { window.location.href = href; } }); };
+    if (menuOpen) closeMenu(go); else go();
+  };
 
   /* ── Estados iniciais ── */
   var heroTitle = $('.hero .top h1');
@@ -242,13 +367,13 @@
     if (!rigEl || !canvas) return null;
     var p3 = null;
 
-    var SCREENS = ['media/screen-inicio.jpg', 'media/screen-analise.jpg', 'media/screen-garagem.jpg'];
+    var SCREENS = [ROOT + 'media/screen-inicio.jpg', ROOT + 'media/screen-analise.jpg', ROOT + 'media/screen-garagem.jpg'];
     function withScreens(cb) {
       // aberto com duplo clique (file://), o WebGL recusa imagens locais: usa as mesmas imagens embutidas
       if (location.protocol !== 'file:') { cb(SCREENS); return; }
       if (window.CARHELP_SCREENS) { cb(window.CARHELP_SCREENS); return; }
       var sc = document.createElement('script');
-      sc.src = 'media/screens-data.js';
+      sc.src = ROOT + 'media/screens-data.js';
       sc.onload = function () { cb(window.CARHELP_SCREENS || SCREENS); };
       sc.onerror = function () { cb(SCREENS); };
       document.head.appendChild(sc);
@@ -376,7 +501,8 @@
     if (heroTitle) tl.fromTo(heroTitle, { y: function () { return window.innerHeight * 0.32; } }, { y: 0, duration: 1.6 }, 0);
     tl.to(heroLines, { yPercent: 0, duration: 1.3, stagger: 0.09 }, 0.05)
       .to('[data-hero-in]', { autoAlpha: 1, y: 0, duration: 1.1, stagger: 0.07 }, 0.45)
-      .add(function () { if (navbar) navbar.classList.remove('hide'); }, 0.8);
+      .add(function () { if (navbar) navbar.classList.remove('hide'); }, 0.8)
+      .add(function () { if (window.CarHelpLang) window.CarHelpLang.hint(); }, 1.6);
     if (phoneEngine) tl.add(function () { phoneEngine.start(2.4); }, 0.15);
     return tl;
   }
@@ -511,6 +637,9 @@
       gsap.to(a, { yPercent: 40, ease: 'none', scrollTrigger: { trigger: a.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
+    gsap.fromTo('#vsStage', { rotationX: 14, scale: 0.92, yPercent: 3 },
+      { rotationX: 0, scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#vsStage', start: 'top bottom', end: 'top 40%', scrub: 1 } });
+
     gsap.fromTo('#mediaCard', { rotationX: 28, scale: 0.84, yPercent: 6 },
       { rotationX: 0, scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#mediaCard', start: 'top bottom', end: 'top 20%', scrub: 1 } });
 
@@ -600,7 +729,7 @@
   /* ── Vídeo do cartão grande: só toca quando visível ── */
   $$('video[data-lazyplay]').forEach(function (v) {
     if (window.matchMedia('(max-width: 760px), (orientation: portrait)').matches) {
-      v.src = 'media/carhelp-mobile.mp4'; v.poster = 'media/poster-mobile.jpg';
+      v.src = ROOT + 'media/carhelp-mobile.mp4'; v.poster = ROOT + 'media/poster-mobile.jpg';
     }
     ST.create({ trigger: v, start: 'top 90%', end: 'bottom 10%',
       onToggle: function (s) { if (s.isActive && !reduce) { v.preload = 'auto'; v.play().catch(function () {}); } else v.pause(); } });
