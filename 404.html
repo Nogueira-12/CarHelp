@@ -104,6 +104,9 @@
       document.querySelector('.e-brand').setAttribute('href', 'en/index.html');
       document.querySelector('.e-center').setAttribute('aria-label', 'Error 404');
       document.querySelector('.e-bottom .ibtn').setAttribute('aria-label', 'Go back');
+      Array.prototype.forEach.call(document.querySelectorAll('#eImg img'), function (im) {
+        im.setAttribute('src', im.getAttribute('src').replace('media/', 'media/en/'));
+      });
     }
 
     /* ── "404" com dígitos que rolam até ao lugar ── */

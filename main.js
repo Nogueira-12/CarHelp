@@ -367,13 +367,15 @@
     if (!rigEl || !canvas) return null;
     var p3 = null;
 
-    var SCREENS = [ROOT + 'media/screen-inicio.jpg', ROOT + 'media/screen-analise.jpg', ROOT + 'media/screen-garagem.jpg'];
+    // ecrãs reais da app, na língua da página (media/en/ tem as capturas com a app em inglês)
+    var MEDIA = ROOT + (EN ? 'media/en/' : 'media/');
+    var SCREENS = [MEDIA + 'screen-inicio.jpg', MEDIA + 'screen-analise.jpg', MEDIA + 'screen-garagem.jpg'];
     function withScreens(cb) {
       // aberto com duplo clique (file://), o WebGL recusa imagens locais: usa as mesmas imagens embutidas
       if (location.protocol !== 'file:') { cb(SCREENS); return; }
       if (window.CARHELP_SCREENS) { cb(window.CARHELP_SCREENS); return; }
       var sc = document.createElement('script');
-      sc.src = ROOT + 'media/screens-data.js';
+      sc.src = MEDIA + 'screens-data.js';
       sc.onload = function () { cb(window.CARHELP_SCREENS || SCREENS); };
       sc.onerror = function () { cb(SCREENS); };
       document.head.appendChild(sc);
