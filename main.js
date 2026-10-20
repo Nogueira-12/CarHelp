@@ -35,6 +35,8 @@
     var s = document.currentScript && document.currentScript.src;
     return s ? s.slice(0, s.lastIndexOf('/') + 1) : '';
   })();
+  /* vídeos e ecrãs da app na língua da página (media/en/ tem a versão inglesa) */
+  var MEDIA = ROOT + (EN ? 'media/en/' : 'media/');
 
   var loader = $('#loader');
   var rig = $('#rig');
@@ -99,7 +101,7 @@
     if (!lb || !v) return;
     function open() {
       var portrait = window.matchMedia('(max-width: 760px), (orientation: portrait)').matches;
-      v.src = ROOT + (portrait ? 'media/carhelp-mobile.mp4' : 'media/carhelp-desktop.mp4');
+      v.src = MEDIA + (portrait ? 'carhelp-mobile.mp4' : 'carhelp-desktop.mp4');
       v.muted = false; v.currentTime = 0;
       lb.classList.add('on');
       if (lenis) lenis.stop();
@@ -367,8 +369,6 @@
     if (!rigEl || !canvas) return null;
     var p3 = null;
 
-    // ecrãs reais da app, na língua da página (media/en/ tem as capturas com a app em inglês)
-    var MEDIA = ROOT + (EN ? 'media/en/' : 'media/');
     var SCREENS = [MEDIA + 'screen-inicio.jpg', MEDIA + 'screen-analise.jpg', MEDIA + 'screen-garagem.jpg'];
     function withScreens(cb) {
       // aberto com duplo clique (file://), o WebGL recusa imagens locais: usa as mesmas imagens embutidas
@@ -731,7 +731,7 @@
   /* ── Vídeo do cartão grande: só toca quando visível ── */
   $$('video[data-lazyplay]').forEach(function (v) {
     if (window.matchMedia('(max-width: 760px), (orientation: portrait)').matches) {
-      v.src = ROOT + 'media/carhelp-mobile.mp4'; v.poster = ROOT + 'media/poster-mobile.jpg';
+      v.src = MEDIA + 'carhelp-mobile.mp4'; v.poster = MEDIA + 'poster-mobile.jpg';
     }
     ST.create({ trigger: v, start: 'top 90%', end: 'bottom 10%',
       onToggle: function (s) { if (s.isActive && !reduce) { v.preload = 'auto'; v.play().catch(function () {}); } else v.pause(); } });
